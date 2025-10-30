@@ -9,11 +9,11 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
-import com.example.ingredio.databinding.FragmentSecondBinding;
+import com.example.ingredio.databinding.MenuCupboardBinding;
 
-public class SecondFragment extends Fragment {
+public class menuCupboard extends Fragment {
 
-    private FragmentSecondBinding binding;
+    private MenuCupboardBinding binding;
 
     @Override
     public View onCreateView(
@@ -21,7 +21,7 @@ public class SecondFragment extends Fragment {
             Bundle savedInstanceState
     ) {
 
-        binding = FragmentSecondBinding.inflate(inflater, container, false);
+        binding = MenuCupboardBinding.inflate(inflater, container, false);
         return binding.getRoot();
 
     }
@@ -30,7 +30,7 @@ public class SecondFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         binding.buttonSecond.setOnClickListener(v ->
-                NavHostFragment.findNavController(SecondFragment.this)
+                NavHostFragment.findNavController(menuCupboard.this)
                         .navigate(R.id.action_SecondFragment_to_FirstFragment)
         );
     }
