@@ -7,9 +7,9 @@
     <string name="next">Next</string>
     <string name="previous">Previous</string>
     <string name="main_text">Main text</string>
-    <string name="open cupboard">Cupboard</string>
-    <string name="browse recipes">Recipes</string>
-    <string name="add items">Add</string>
+    <string name="cupboard">Open cupboard</string>
+    <string name="recipes">Browse recipes</string>
+    <string name="add">Add items</string>
 
 
 
