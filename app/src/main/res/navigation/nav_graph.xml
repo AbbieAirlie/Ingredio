@@ -8,7 +8,6 @@
     <fragment
         android:id="@+id/FirstFragment"
         android:name="com.example.ingredio.menuMain"
-        android:label="@string/first_fragment_label"
         tools:layout="@layout/menu_main">
 
         <action
@@ -18,7 +17,6 @@
     <fragment
         android:id="@+id/SecondFragment"
         android:name="com.example.ingredio.menuCupboard"
-        android:label="@string/second_fragment_label"
         tools:layout="@layout/menu_cupboard">
 
         <action

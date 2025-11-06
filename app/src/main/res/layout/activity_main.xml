@@ -30,6 +30,6 @@
         android:layout_marginEnd="@dimen/fab_margin"
         android:layout_marginBottom="16dp"
         app:backgroundTint="@color/ingredio_green"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
+        app:srcCompat="@android:drawable/stat_notify_chat" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
