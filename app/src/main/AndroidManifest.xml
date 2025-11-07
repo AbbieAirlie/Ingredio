@@ -23,6 +23,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".menuChat" />
+        <activity android:name=".BrowseRecipesActivity" />
+        <activity android:name=".AddItemsActivity" />
     </application>
 
 </manifest>

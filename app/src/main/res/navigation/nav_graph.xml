@@ -13,6 +13,12 @@
         <action
             android:id="@+id/action_FirstFragment_to_SecondFragment"
             app:destination="@id/SecondFragment" />
+        <action
+            android:id="@+id/action_FirstFragment_to_browseRecipesFragment"
+            app:destination="@id/browseRecipesFragment" />
+        <action
+            android:id="@+id/action_FirstFragment_to_addItemsFragment"
+            app:destination="@id/addItemsFragment" />
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
@@ -23,4 +29,14 @@
             android:id="@+id/action_SecondFragment_to_FirstFragment"
             app:destination="@id/FirstFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/browseRecipesFragment"
+        android:name="com.example.ingredio.BrowseRecipesFragment"
+        android:label="Browse Recipes"
+        tools:layout="@layout/browse_recipes" />
+    <fragment
+        android:id="@+id/addItemsFragment"
+        android:name="com.example.ingredio.AddItemsFragment"
+        android:label="Add Items"
+        tools:layout="@layout/add_items" />
 </navigation>
