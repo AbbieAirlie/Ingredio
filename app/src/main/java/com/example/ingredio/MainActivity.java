@@ -3,8 +3,6 @@ package com.example.ingredio;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.google.android.material.snackbar.Snackbar;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.View;
@@ -40,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         binding.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, MenuChatActivity.class);
+                Intent intent = new Intent(MainActivity.this, menuChat.class);
                 startActivity(intent);
             }
         });

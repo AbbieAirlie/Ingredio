@@ -3,11 +3,11 @@ package com.example.ingredio;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class MenuChatActivity extends AppCompatActivity {
+public class menuChat extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_menu_chat);
+        setContentView(R.layout.activity_chat);
     }
 }
