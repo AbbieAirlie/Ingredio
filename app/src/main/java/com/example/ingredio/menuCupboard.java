@@ -33,6 +33,11 @@ public class menuCupboard extends Fragment {
                 NavHostFragment.findNavController(menuCupboard.this)
                         .navigate(R.id.action_SecondFragment_to_FirstFragment)
         );
+
+        binding.buttonThird.setOnClickListener(v ->
+                NavHostFragment.findNavController(menuCupboard.this)
+                        .navigate(R.id.action_SecondFragment_to_addItemsFragment)
+        );
     }
 
     @Override
