@@ -1,11 +1,13 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
+    //google services gradle plugin for firebase
+    id("com.google.gms.google-services")
 }
 
 android {
     namespace = "com.example.ingredio"
-    compileSdk = 36
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.ingredio"
@@ -46,4 +48,10 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    //import firebase BoM
+    implementation(platform("com.google.firebase:firebase-bom:34.12.0"))
+    implementation("com.google.firebase:firebase-analytics")
+    //add any firebase product dependencies here
+    //firebase authentication
+    implementation("com.google.firebase:firebase-auth")
 }

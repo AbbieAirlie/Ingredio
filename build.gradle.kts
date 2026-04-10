@@ -2,4 +2,6 @@
 plugins {
     alias(libs.plugins.androidApplication) apply false
     alias(libs.plugins.kotlinAndroid) apply false
+    //google services gradle plugin for firebase
+    id("com.google.gms.google-services") version "4.4.4" apply false
 }
