@@ -10,6 +10,15 @@
     <string name="recipes">Browse recipes</string>
     <string name="add">Add items</string>
     <string name="back_to_home">Back to Home</string>
+    <string name="action_logout">Logout</string>
+    <string name="login_title">Ingredio Login</string>
+    <string name="email_hint">Email</string>
+    <string name="password_hint">Password</string>
+    <string name="login_button">Login</string>
+    <string name="register_button">Register</string>
+    <string name="login_failed">Login failed. Please check your credentials.</string>
+    <string name="registration_failed">Registration failed.</string>
+    <string name="registration_success">Registration successful!</string>
 
 
 
