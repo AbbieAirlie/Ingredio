@@ -54,6 +54,8 @@ dependencies {
     //add any firebase product dependencies here
     //firebase authentication
     implementation("com.google.firebase:firebase-auth")
+    //firebase firestore
+    implementation("com.google.firebase:firebase-firestore")
 
     // Retrofit & Glide
     implementation(libs.retrofit)

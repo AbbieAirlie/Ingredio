@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.ingredio.data.api.SpoonacularService
+import com.example.ingredio.data.model.Ingredient
+import com.example.ingredio.data.model.IngredientResponse
 import com.example.ingredio.data.model.Recipe
 import com.example.ingredio.data.model.RecipeResponse
 import retrofit2.Call
@@ -16,6 +18,9 @@ class RecipeViewModel : ViewModel() {
 
     private val _recipes = MutableLiveData<List<Recipe>>()
     val recipes: LiveData<List<Recipe>> get() = _recipes
+
+    private val _ingredients = MutableLiveData<List<Ingredient>>()
+    val ingredients: LiveData<List<Ingredient>> get() = _ingredients
 
     private val _error = MutableLiveData<String>()
     val error: LiveData<String> get() = _error
@@ -41,6 +46,22 @@ class RecipeViewModel : ViewModel() {
             }
 
             override fun onFailure(call: Call<RecipeResponse>, t: Throwable) {
+                _error.value = "Failure: ${t.message}"
+            }
+        })
+    }
+
+    fun searchIngredients(query: String) {
+        spoonacularService.searchIngredients(apiKey, query).enqueue(object : Callback<IngredientResponse> {
+            override fun onResponse(call: Call<IngredientResponse>, response: Response<IngredientResponse>) {
+                if (response.isSuccessful) {
+                    _ingredients.value = response.body()?.results ?: emptyList()
+                } else {
+                    _error.value = "Error: ${response.code()}"
+                }
+            }
+
+            override fun onFailure(call: Call<IngredientResponse>, t: Throwable) {
                 _error.value = "Failure: ${t.message}"
             }
         })

@@ -1,49 +1,72 @@
-package com.example.ingredio;
+package com.example.ingredio
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.ingredio.databinding.MenuCupboardBinding
 
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.fragment.NavHostFragment;
+class menuCupboard : Fragment() {
 
-import com.example.ingredio.databinding.MenuCupboardBinding;
+    private var _binding: MenuCupboardBinding? = null
+    private val binding get() = _binding!!
 
-public class menuCupboard extends Fragment {
+    private val viewModel: CupboardViewModel by viewModels()
+    private lateinit var ingredientAdapter: IngredientAdapter
 
-    private MenuCupboardBinding binding;
-
-    @Override
-    public View onCreateView(
-            @NonNull LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState
-    ) {
-
-        binding = MenuCupboardBinding.inflate(inflater, container, false);
-        return binding.getRoot();
-
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = MenuCupboardBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        binding.buttonSecond.setOnClickListener(v ->
-                NavHostFragment.findNavController(menuCupboard.this)
-                        .navigate(R.id.action_SecondFragment_to_FirstFragment)
-        );
+        setupRecyclerView()
+        observeViewModel()
 
-        binding.buttonThird.setOnClickListener(v ->
-                NavHostFragment.findNavController(menuCupboard.this)
-                        .navigate(R.id.action_SecondFragment_to_addItemsFragment)
-        );
+        binding.buttonSecond.setOnClickListener {
+            findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
+        }
+
+        binding.buttonThird.setOnClickListener {
+            findNavController().navigate(R.id.action_SecondFragment_to_addItemsFragment)
+        }
+
+        viewModel.fetchUserIngredients()
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
+    private fun setupRecyclerView() {
+        ingredientAdapter = IngredientAdapter(emptyList(), "Remove") { ingredient ->
+            viewModel.removeIngredientFromCupboard(ingredient.id)
+        }
+        binding.recyclerViewCupboard.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = ingredientAdapter
+        }
     }
 
+    private fun observeViewModel() {
+        viewModel.userIngredients.observe(viewLifecycleOwner) { ingredients ->
+            ingredientAdapter.updateIngredients(ingredients)
+            binding.textviewSecond.visibility = if (ingredients.isEmpty()) View.VISIBLE else View.GONE
+        }
+
+        viewModel.status.observe(viewLifecycleOwner) { status ->
+            Toast.makeText(context, status, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }
