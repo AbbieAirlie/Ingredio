@@ -54,4 +54,13 @@ dependencies {
     //add any firebase product dependencies here
     //firebase authentication
     implementation("com.google.firebase:firebase-auth")
+
+    // Retrofit & Glide
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.glide)
+
+    // ViewModel & LiveData
+    implementation(libs.lifecycle.viewmodel.ktx)
+    implementation(libs.lifecycle.livedata.ktx)
 }

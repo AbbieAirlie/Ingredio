@@ -13,6 +13,22 @@
         android:layout_gravity="center"
         android:padding="16dp"/>
 
+    <EditText
+        android:id="@+id/editTextSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Search recipes..."
+        android:layout_margin="8dp"
+        android:imeOptions="actionSearch"
+        android:inputType="text"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewRecipes"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="8dp"/>
+
     <Button
         android:id="@+id/button_back"
         android:layout_width="wrap_content"
