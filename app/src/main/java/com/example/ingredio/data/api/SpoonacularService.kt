@@ -15,6 +15,15 @@ interface SpoonacularService {
         @Query("addRecipeInformation") addRecipeInformation: Boolean = true
     ): Call<RecipeResponse>
 
+    @GET("recipes/complexSearch")
+    fun searchRecipesByIngredients(
+        @Query("apiKey") apiKey: String,
+        @Query("includeIngredients") ingredients: String,
+        @Query("number") number: Int = 10,
+        @Query("addRecipeInformation") addRecipeInformation: Boolean = true,
+        @Query("fillIngredients") fillIngredients: Boolean = true
+    ): Call<RecipeResponse>
+
     @GET("food/ingredients/search")
     fun searchIngredients(
         @Query("apiKey") apiKey: String,

@@ -51,6 +51,23 @@ class RecipeViewModel : ViewModel() {
         })
     }
 
+    fun searchRecipesByIngredients(ingredients: List<String>) {
+        val ingredientQuery = ingredients.joinToString(",")
+        spoonacularService.searchRecipesByIngredients(apiKey, ingredientQuery).enqueue(object : Callback<RecipeResponse> {
+            override fun onResponse(call: Call<RecipeResponse>, response: Response<RecipeResponse>) {
+                if (response.isSuccessful) {
+                    _recipes.value = response.body()?.results ?: emptyList()
+                } else {
+                    _error.value = "Error: ${response.code()}"
+                }
+            }
+
+            override fun onFailure(call: Call<RecipeResponse>, t: Throwable) {
+                _error.value = "Failure: ${t.message}"
+            }
+        })
+    }
+
     fun searchIngredients(query: String) {
         spoonacularService.searchIngredients(apiKey, query).enqueue(object : Callback<IngredientResponse> {
             override fun onResponse(call: Call<IngredientResponse>, response: Response<IngredientResponse>) {

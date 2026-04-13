@@ -21,6 +21,7 @@ class BrowseRecipesFragment : Fragment() {
 
     private lateinit var recipeAdapter: RecipeAdapter
     private val viewModel: RecipeViewModel by viewModels()
+    private val cupboardViewModel: CupboardViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,6 +46,7 @@ class BrowseRecipesFragment : Fragment() {
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 val query = binding.editTextSearch.text.toString()
                 if (query.isNotEmpty()) {
+                    binding.textViewRecommendationStatus.visibility = View.GONE
                     viewModel.searchRecipes(query)
                 }
                 true
@@ -52,6 +54,9 @@ class BrowseRecipesFragment : Fragment() {
                 false
             }
         }
+
+        // Fetch ingredients to get recommendations
+        cupboardViewModel.fetchUserIngredients()
     }
 
     private fun setupRecyclerView() {
@@ -78,6 +83,16 @@ class BrowseRecipesFragment : Fragment() {
 
         viewModel.error.observe(viewLifecycleOwner) { errorMessage ->
             Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+        }
+
+        cupboardViewModel.userIngredients.observe(viewLifecycleOwner) { ingredients ->
+            if (ingredients.isNotEmpty()) {
+                binding.textViewRecommendationStatus.visibility = View.VISIBLE
+                val ingredientNames = ingredients.map { it.name }
+                viewModel.searchRecipesByIngredients(ingredientNames)
+            } else {
+                binding.textViewRecommendationStatus.visibility = View.GONE
+            }
         }
     }
 
