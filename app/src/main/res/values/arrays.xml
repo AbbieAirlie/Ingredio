@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="storage_types">
+        <item>Ambient</item>
+        <item>Fresh</item>
+        <item>Frozen</item>
+    </string-array>
+</resources>

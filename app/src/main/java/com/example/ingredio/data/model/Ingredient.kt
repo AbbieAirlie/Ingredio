@@ -9,7 +9,10 @@ data class IngredientResponse(
 data class Ingredient(
     @SerializedName("id") val id: Int,
     @SerializedName("name") val name: String,
-    @SerializedName("image") val image: String
+    @SerializedName("image") val image: String,
+    val expiryDate: Long? = null,
+    val expiryType: String? = null, // "Use By" or "Best Before"
+    val storageType: String? = null // "Ambient", "Fresh", "Frozen"
 ) {
     val imageUrl: String
         get() = "https://spoonacular.com/cdn/ingredients_100x100/$image"

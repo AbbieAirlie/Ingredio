@@ -27,13 +27,45 @@ class CupboardViewModel : ViewModel() {
                     Ingredient(
                         id = document.getLong("id")?.toInt() ?: 0,
                         name = document.getString("name") ?: "",
-                        image = document.getString("image") ?: ""
+                        image = document.getString("image") ?: "",
+                        expiryDate = document.getLong("expiryDate"),
+                        expiryType = document.getString("expiryType"),
+                        storageType = document.getString("storageType")
                     )
                 }
                 _userIngredients.value = ingredients
             }
             .addOnFailureListener { exception ->
                 _status.value = "Error fetching ingredients: ${exception.message}"
+            }
+    }
+
+    fun addIngredientWithDetails(
+        ingredient: Ingredient,
+        expiryDate: Long?,
+        expiryType: String,
+        storageType: String
+    ) {
+        val userId = auth.currentUser?.uid ?: return
+
+        val ingredientData = hashMapOf(
+            "id" to ingredient.id,
+            "name" to ingredient.name,
+            "image" to ingredient.image,
+            "expiryDate" to expiryDate,
+            "expiryType" to expiryType,
+            "storageType" to storageType
+        )
+
+        db.collection("users").document(userId).collection("cupboard")
+            .document(ingredient.id.toString())
+            .set(ingredientData)
+            .addOnSuccessListener {
+                _status.value = "${ingredient.name} added to cupboard"
+                fetchUserIngredients()
+            }
+            .addOnFailureListener { e ->
+                _status.value = "Error adding ingredient: ${e.message}"
             }
     }
 
