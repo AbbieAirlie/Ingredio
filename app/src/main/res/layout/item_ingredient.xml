@@ -19,7 +19,7 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:scaleType="centerCrop"
-            android:contentDescription="Ingredient image" />
+            android:contentDescription="@string/ingredient_image_desc" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -32,7 +32,7 @@
                 android:id="@+id/textView_ingredient_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Ingredient Name"
+                android:text="@string/details_placeholder"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -40,7 +40,7 @@
                 android:id="@+id/textView_ingredient_details"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Details"
+                android:text="@string/details_placeholder"
                 android:textSize="14sp"
                 android:textStyle="italic"
                 android:visibility="gone" />
@@ -50,7 +50,7 @@
             android:id="@+id/button_add_ingredient"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add"
+            android:text="@string/add_button"
             android:backgroundTint="@color/ingredio_green" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>

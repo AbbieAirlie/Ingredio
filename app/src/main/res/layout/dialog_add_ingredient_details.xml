@@ -9,7 +9,7 @@
         android:id="@+id/textView_dialog_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Ingredient Details"
+        android:text="@string/ingredient_details_title"
         android:textSize="20sp"
         android:textStyle="bold"
         android:layout_marginBottom="16dp"/>
@@ -17,7 +17,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Expiry Date"
+        android:text="@string/expiry_date_label"
         android:textStyle="bold"/>
 
     <Button
@@ -25,14 +25,14 @@
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Select Date"
+        android:text="@string/select_date_button"
         android:textAlignment="viewStart"
         android:layout_marginBottom="8dp"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Expiry Type"
+        android:text="@string/expiry_type_label"
         android:textStyle="bold"/>
 
     <RadioGroup
@@ -45,19 +45,19 @@
             android:id="@+id/radioButton_use_by"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Use By"
+            android:text="@string/use_by"
             android:checked="true"/>
         <RadioButton
             android:id="@+id/radioButton_best_before"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Best Before"/>
+            android:text="@string/best_before"/>
     </RadioGroup>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Storage Location"
+        android:text="@string/storage_location_label"
         android:textStyle="bold"/>
 
     <Spinner
@@ -79,12 +79,12 @@
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cancel"/>
+            android:text="@string/cancel_button"/>
         <Button
             android:id="@+id/button_confirm_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add to Cupboard"
+            android:text="@string/add_to_cupboard_button"
             android:backgroundTint="@color/ingredio_green"/>
     </LinearLayout>
 </LinearLayout>

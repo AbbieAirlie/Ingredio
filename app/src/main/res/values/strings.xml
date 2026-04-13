@@ -20,7 +20,30 @@
     <string name="registration_failed">Registration failed.</string>
     <string name="registration_success">Registration successful!</string>
 
+    <!-- Ingredient Search & Cupboard -->
+    <string name="search_ingredients_hint">Search to add ingredients...</string>
+    <string name="my_cupboard_title">My Cupboard</string>
+    <string name="cupboard_empty">Your cupboard is empty</string>
+    <string name="ingredient_image_desc">Ingredient image</string>
+    <string name="add_button">Add</string>
+    <string name="remove_button">Remove</string>
+    <string name="details_placeholder">Details</string>
 
+    <!-- Recipe Search -->
+    <string name="search_recipes_hint">Search recipes...</string>
+    <string name="recommendation_status">Showing recipes based on your cupboard</string>
 
-
+    <!-- Ingredient Details Dialog -->
+    <string name="ingredient_details_title">Ingredient Details</string>
+    <string name="expiry_date_label">Expiry Date</string>
+    <string name="select_date_button">Select Date</string>
+    <string name="expiry_type_label">Expiry Type</string>
+    <string name="use_by">Use By</string>
+    <string name="best_before">Best Before</string>
+    <string name="storage_location_label">Storage Location</string>
+    <string name="cancel_button">Cancel</string>
+    <string name="add_to_cupboard_button">Add to Cupboard</string>
+    <string name="please_select_date">Please select an expiry date</string>
+    <string name="browse_recipes_title">Browse Recipes</string>
+    <string name="no_url_available">No URL available for this recipe</string>
 </resources>

@@ -67,7 +67,7 @@ class BrowseRecipesFragment : Fragment() {
                 }
                 findNavController().navigate(R.id.action_browseRecipesFragment_to_recipeDetailFragment, bundle)
             } ?: run {
-                Toast.makeText(context, "No URL available for this recipe", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, getString(R.string.no_url_available), Toast.LENGTH_SHORT).show()
             }
         }
         binding.recyclerViewRecipes.apply {
