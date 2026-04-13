@@ -22,6 +22,7 @@ class BrowseRecipesFragment : Fragment() {
     private lateinit var recipeAdapter: RecipeAdapter
     private val viewModel: RecipeViewModel by viewModels()
     private val cupboardViewModel: CupboardViewModel by viewModels()
+    private val shoppingViewModel: ShoppingListViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -60,16 +61,25 @@ class BrowseRecipesFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        recipeAdapter = RecipeAdapter(emptyList()) { recipe ->
-            recipe.sourceUrl?.let { url ->
-                val bundle = Bundle().apply {
-                    putString("url", url)
+        recipeAdapter = RecipeAdapter(
+            recipes = emptyList(),
+            onRecipeClick = { recipe ->
+                recipe.sourceUrl?.let { url ->
+                    val bundle = Bundle().apply {
+                        putString("url", url)
+                    }
+                    findNavController().navigate(R.id.action_browseRecipesFragment_to_recipeDetailFragment, bundle)
+                } ?: run {
+                    Toast.makeText(context, getString(R.string.no_url_available), Toast.LENGTH_SHORT).show()
                 }
-                findNavController().navigate(R.id.action_browseRecipesFragment_to_recipeDetailFragment, bundle)
-            } ?: run {
-                Toast.makeText(context, getString(R.string.no_url_available), Toast.LENGTH_SHORT).show()
+            },
+            onAddAllToShoppingList = { recipe ->
+                recipe.extendedIngredients?.forEach { ingredient ->
+                    shoppingViewModel.addIngredientToShoppingList(ingredient)
+                }
+                Toast.makeText(context, "Added ingredients to shopping list", Toast.LENGTH_SHORT).show()
             }
-        }
+        )
         binding.recyclerViewRecipes.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = recipeAdapter

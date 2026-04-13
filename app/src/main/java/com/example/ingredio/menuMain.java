@@ -38,6 +38,11 @@ public class menuMain extends Fragment {
                 NavHostFragment.findNavController(menuMain.this)
                         .navigate(R.id.action_FirstFragment_to_browseRecipesFragment)
         );
+
+        binding.buttonShoppingList.setOnClickListener(v ->
+                NavHostFragment.findNavController(menuMain.this)
+                        .navigate(R.id.action_FirstFragment_to_shoppingListFragment)
+        );
     }
 
     @Override

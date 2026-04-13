@@ -17,8 +17,8 @@
             android:id="@+id/action_FirstFragment_to_browseRecipesFragment"
             app:destination="@id/browseRecipesFragment" />
         <action
-            android:id="@+id/action_FirstFragment_to_addItemsFragment"
-            app:destination="@id/addItemsFragment" />
+            android:id="@+id/action_FirstFragment_to_shoppingListFragment"
+            app:destination="@id/shoppingListFragment" />
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
@@ -28,9 +28,6 @@
         <action
             android:id="@+id/action_SecondFragment_to_FirstFragment"
             app:destination="@id/FirstFragment" />
-        <action
-            android:id="@+id/action_SecondFragment_to_addItemsFragment"
-            app:destination="@id/addItemsFragment" />
     </fragment>
     <fragment
         android:id="@+id/browseRecipesFragment"
@@ -40,6 +37,9 @@
         <action
             android:id="@+id/action_browseRecipesFragment_to_recipeDetailFragment"
             app:destination="@id/recipeDetailFragment" />
+        <action
+            android:id="@+id/action_browseRecipesFragment_to_shoppingListFragment"
+            app:destination="@id/shoppingListFragment" />
     </fragment>
     <fragment
         android:id="@+id/recipeDetailFragment"
@@ -51,8 +51,8 @@
             app:argType="string" />
     </fragment>
     <fragment
-        android:id="@+id/addItemsFragment"
-        android:name="com.example.ingredio.AddItemsFragment"
-        android:label="Add Items"
-        tools:layout="@layout/add_items" />
+        android:id="@+id/shoppingListFragment"
+        android:name="com.example.ingredio.ShoppingListFragment"
+        android:label="Shopping List"
+        tools:layout="@layout/menu_shopping_list" />
 </navigation>

@@ -11,12 +11,14 @@ import com.example.ingredio.data.model.Recipe
 
 class RecipeAdapter(
     private var recipes: List<Recipe>,
-    private val onRecipeClick: (Recipe) -> Unit
+    private val onRecipeClick: (Recipe) -> Unit,
+    private val onAddAllToShoppingList: ((Recipe) -> Unit)? = null
 ) : RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder>() {
 
     class RecipeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val recipeImage: ImageView = view.findViewById(R.id.recipeImage)
         val recipeTitle: TextView = view.findViewById(R.id.recipeTitle)
+        val btnAddAll: View = view.findViewById(R.id.button_add_all_shopping)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipeViewHolder {
@@ -34,6 +36,15 @@ class RecipeAdapter(
 
         holder.itemView.setOnClickListener {
             onRecipeClick(recipe)
+        }
+
+        if (onAddAllToShoppingList != null) {
+            holder.btnAddAll.visibility = View.VISIBLE
+            holder.btnAddAll.setOnClickListener {
+                onAddAllToShoppingList.invoke(recipe)
+            }
+        } else {
+            holder.btnAddAll.visibility = View.GONE
         }
     }
 

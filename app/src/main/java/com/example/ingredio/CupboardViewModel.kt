@@ -18,25 +18,34 @@ class CupboardViewModel : ViewModel() {
     private val _status = MutableLiveData<String>()
     val status: LiveData<String> get() = _status
 
+    private var cupboardListener: com.google.firebase.firestore.ListenerRegistration? = null
+
     fun fetchUserIngredients() {
         val userId = auth.currentUser?.uid ?: return
-        db.collection("users").document(userId).collection("cupboard")
-            .get()
-            .addOnSuccessListener { result ->
-                val ingredients = result.map { document ->
-                    Ingredient(
-                        id = document.getLong("id")?.toInt() ?: 0,
-                        name = document.getString("name") ?: "",
-                        image = document.getString("image") ?: "",
-                        expiryDate = document.getLong("expiryDate"),
-                        expiryType = document.getString("expiryType"),
-                        storageType = document.getString("storageType")
-                    )
+        
+        // Remove existing listener if any
+        cupboardListener?.remove()
+
+        cupboardListener = db.collection("users").document(userId).collection("cupboard")
+            .addSnapshotListener { snapshot, e ->
+                if (e != null) {
+                    _status.value = "Error listening to cupboard: ${e.message}"
+                    return@addSnapshotListener
                 }
-                _userIngredients.value = ingredients
-            }
-            .addOnFailureListener { exception ->
-                _status.value = "Error fetching ingredients: ${exception.message}"
+
+                if (snapshot != null) {
+                    val ingredients = snapshot.documents.mapNotNull { document ->
+                        Ingredient(
+                            id = document.getLong("id")?.toInt() ?: 0,
+                            name = document.getString("name") ?: "",
+                            image = document.getString("image") ?: "",
+                            expiryDate = document.getLong("expiryDate"),
+                            expiryType = document.getString("expiryType"),
+                            storageType = document.getString("storageType")
+                        )
+                    }
+                    _userIngredients.value = ingredients
+                }
             }
     }
 
@@ -62,7 +71,7 @@ class CupboardViewModel : ViewModel() {
             .set(ingredientData)
             .addOnSuccessListener {
                 _status.value = "${ingredient.name} added to cupboard"
-                fetchUserIngredients()
+                // No need to call fetchUserIngredients() here as the listener handles it
             }
             .addOnFailureListener { e ->
                 _status.value = "Error adding ingredient: ${e.message}"
@@ -86,7 +95,7 @@ class CupboardViewModel : ViewModel() {
             .set(ingredientData)
             .addOnSuccessListener {
                 _status.value = "${ingredient.name} added to cupboard"
-                fetchUserIngredients()
+                // No need to call fetchUserIngredients() here
             }
             .addOnFailureListener { e ->
                 _status.value = "Error adding ingredient: ${e.message}"
@@ -100,7 +109,12 @@ class CupboardViewModel : ViewModel() {
             .delete()
             .addOnSuccessListener {
                 _status.value = "Ingredient removed"
-                fetchUserIngredients()
+                // No need to call fetchUserIngredients() here
             }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        cupboardListener?.remove()
     }
 }

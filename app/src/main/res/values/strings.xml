@@ -46,4 +46,9 @@
     <string name="please_select_date">Please select an expiry date</string>
     <string name="browse_recipes_title">Browse Recipes</string>
     <string name="no_url_available">No URL available for this recipe</string>
+    <string name="shopping_list_title">Shopping List</string>
+    <string name="shopping_list_empty">Your shopping list is empty</string>
+    <string name="shopping_list_button">Shopping List</string>
+    <string name="search_shopping_hint">Search to add to shopping list…</string>
+    <string name="add_all_to_shopping_list">Add all ingredients to shopping list</string>
 </resources>

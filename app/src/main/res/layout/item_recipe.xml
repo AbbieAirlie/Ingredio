@@ -26,5 +26,16 @@
             android:text="Recipe Title"
             android:textSize="18sp"
             android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/button_add_all_shopping"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_margin="8dp"
+            android:text="@string/add_all_to_shopping_list"
+            android:textSize="12sp"
+            android:visibility="gone"
+            android:backgroundTint="@color/ingredio_green" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>

@@ -10,5 +10,6 @@ data class Recipe(
     @SerializedName("id") val id: Int,
     @SerializedName("title") val title: String,
     @SerializedName("image") val image: String,
-    @SerializedName("sourceUrl") val sourceUrl: String?
+    @SerializedName("sourceUrl") val sourceUrl: String?,
+    @SerializedName("extendedIngredients") val extendedIngredients: List<Ingredient>?
 )
