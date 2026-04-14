@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/SecondFragment"
+        android:icon="@drawable/ic_cupboard"
+        android:title="@string/cupboard" />
+    <item
+        android:id="@+id/shoppingListFragment"
+        android:icon="@drawable/ic_shopping_list"
+        android:title="@string/shopping_list_title" />
+    <item
+        android:id="@+id/FirstFragment"
+        android:icon="@drawable/ic_home"
+        android:title="Home" />
+    <item
+        android:id="@+id/browseRecipesFragment"
+        android:icon="@drawable/ic_browse"
+        android:title="@string/recipes" />
+    <item
+        android:id="@+id/savedRecipesFragment"
+        android:icon="@drawable/ic_saved"
+        android:title="@string/saved_recipes_title" />
+</menu>

@@ -17,6 +17,8 @@ import com.example.ingredio.databinding.ActivityMainBinding;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import androidx.navigation.ui.NavigationUI;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
 
@@ -41,8 +43,13 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(binding.toolbar);
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
+        appBarConfiguration = new AppBarConfiguration.Builder(
+                R.id.FirstFragment, R.id.SecondFragment, R.id.browseRecipesFragment, R.id.shoppingListFragment, R.id.savedRecipesFragment)
+                .build();
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
+        NavigationUI.setupWithNavController(bottomNav, navController);
 
         binding.fab.setOnClickListener(new View.OnClickListener() {
             @Override
