@@ -9,7 +9,6 @@
         android:id="@+id/FirstFragment"
         android:name="com.example.ingredio.menuMain"
         tools:layout="@layout/menu_main">
-
         <action
             android:id="@+id/action_FirstFragment_to_SecondFragment"
             app:destination="@id/SecondFragment" />
@@ -26,28 +25,19 @@
             android:id="@+id/action_FirstFragment_to_mealPlannerFragment"
             app:destination="@id/mealPlannerFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/mealPlannerFragment"
-        android:name="com.example.ingredio.MealPlannerFragment"
-        android:label="Meal Planner"
-        tools:layout="@layout/fragment_meal_planner" />
+
     <fragment
         android:id="@+id/SecondFragment"
         android:name="com.example.ingredio.menuCupboard"
         tools:layout="@layout/menu_cupboard">
-
         <action
             android:id="@+id/action_SecondFragment_to_FirstFragment"
             app:destination="@id/FirstFragment" />
         <action
-            android:id="@+id/action_FirstFragment_to_mealPlannerFragment"
+            android:id="@+id/action_SecondFragment_to_mealPlannerFragment"
             app:destination="@id/mealPlannerFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/mealPlannerFragment"
-        android:name="com.example.ingredio.MealPlannerFragment"
-        android:label="Meal Planner"
-        tools:layout="@layout/fragment_meal_planner" />
+
     <fragment
         android:id="@+id/browseRecipesFragment"
         android:name="com.example.ingredio.BrowseRecipesFragment"
@@ -60,14 +50,10 @@
             android:id="@+id/action_browseRecipesFragment_to_shoppingListFragment"
             app:destination="@id/shoppingListFragment" />
         <action
-            android:id="@+id/action_FirstFragment_to_mealPlannerFragment"
+            android:id="@+id/action_browseRecipesFragment_to_mealPlannerFragment"
             app:destination="@id/mealPlannerFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/mealPlannerFragment"
-        android:name="com.example.ingredio.MealPlannerFragment"
-        android:label="Meal Planner"
-        tools:layout="@layout/fragment_meal_planner" />
+
     <fragment
         android:id="@+id/savedRecipesFragment"
         android:name="com.example.ingredio.SavedRecipesFragment"
@@ -77,14 +63,10 @@
             android:id="@+id/action_savedRecipesFragment_to_recipeDetailFragment"
             app:destination="@id/recipeDetailFragment" />
         <action
-            android:id="@+id/action_FirstFragment_to_mealPlannerFragment"
+            android:id="@+id/action_savedRecipesFragment_to_mealPlannerFragment"
             app:destination="@id/mealPlannerFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/mealPlannerFragment"
-        android:name="com.example.ingredio.MealPlannerFragment"
-        android:label="Meal Planner"
-        tools:layout="@layout/fragment_meal_planner" />
+
     <fragment
         android:id="@+id/recipeDetailFragment"
         android:name="com.example.ingredio.RecipeDetailFragment"
@@ -94,17 +76,20 @@
             android:name="url"
             app:argType="string" />
         <action
-            android:id="@+id/action_FirstFragment_to_mealPlannerFragment"
+            android:id="@+id/action_recipeDetailFragment_to_mealPlannerFragment"
             app:destination="@id/mealPlannerFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/mealPlannerFragment"
-        android:name="com.example.ingredio.MealPlannerFragment"
-        android:label="Meal Planner"
-        tools:layout="@layout/fragment_meal_planner" />
+
     <fragment
         android:id="@+id/shoppingListFragment"
         android:name="com.example.ingredio.ShoppingListFragment"
         android:label="Shopping List"
         tools:layout="@layout/menu_shopping_list" />
+
+    <fragment
+        android:id="@+id/mealPlannerFragment"
+        android:name="com.example.ingredio.MealPlannerFragment"
+        android:label="Meal Planner"
+        tools:layout="@layout/fragment_meal_planner" />
+
 </navigation>
