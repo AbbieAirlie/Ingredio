@@ -33,6 +33,17 @@ class RecipeViewModel : ViewModel() {
     private val db = FirebaseFirestore.getInstance()
     private val auth = FirebaseAuth.getInstance()
 
+    // Simple in-memory cache
+    private var lastQuery: String? = null
+    private var lastDiet: String? = null
+    private var lastIntolerances: String? = null
+    private var cachedRecipes: List<Recipe>? = null
+
+    private var lastIngredientQuery: List<String>? = null
+    private var lastIngredientDiet: String? = null
+    private var lastIngredientIntolerances: String? = null
+    private var cachedIngredientRecipes: List<Recipe>? = null
+
     fun saveRecipe(recipe: Recipe) {
         val userId = auth.currentUser?.uid ?: return
         
@@ -94,10 +105,22 @@ class RecipeViewModel : ViewModel() {
     private val apiKey = "cd1c0340258f4c5bad29f95c40644e2e"
 
     fun searchRecipes(query: String, diet: String? = null, intolerances: String? = null) {
+        // Check cache
+        if (query == lastQuery && diet == lastDiet && intolerances == lastIntolerances && cachedRecipes != null) {
+            _recipes.value = cachedRecipes
+            return
+        }
+
         spoonacularService.searchRecipes(apiKey, query, diet, intolerances).enqueue(object : Callback<RecipeResponse> {
             override fun onResponse(call: Call<RecipeResponse>, response: Response<RecipeResponse>) {
                 if (response.isSuccessful) {
-                    _recipes.value = response.body()?.results ?: emptyList()
+                    val results = response.body()?.results ?: emptyList()
+                    // Update cache
+                    lastQuery = query
+                    lastDiet = diet
+                    lastIntolerances = intolerances
+                    cachedRecipes = results
+                    _recipes.value = results
                 } else {
                     _error.value = "Error: ${response.code()}"
                 }
@@ -110,11 +133,23 @@ class RecipeViewModel : ViewModel() {
     }
 
     fun searchRecipesByIngredients(ingredients: List<String>, diet: String? = null, intolerances: String? = null) {
+        // Check cache
+        if (ingredients == lastIngredientQuery && diet == lastIngredientDiet && intolerances == lastIngredientIntolerances && cachedIngredientRecipes != null) {
+            _recipes.value = cachedIngredientRecipes
+            return
+        }
+
         val ingredientQuery = ingredients.joinToString(",")
         spoonacularService.searchRecipesByIngredients(apiKey, ingredientQuery, diet, intolerances).enqueue(object : Callback<RecipeResponse> {
             override fun onResponse(call: Call<RecipeResponse>, response: Response<RecipeResponse>) {
                 if (response.isSuccessful) {
-                    _recipes.value = response.body()?.results ?: emptyList()
+                    val results = response.body()?.results ?: emptyList()
+                    // Update cache
+                    lastIngredientQuery = ingredients
+                    lastIngredientDiet = diet
+                    lastIngredientIntolerances = intolerances
+                    cachedIngredientRecipes = results
+                    _recipes.value = results
                 } else {
                     _error.value = "Error: ${response.code()}"
                 }
