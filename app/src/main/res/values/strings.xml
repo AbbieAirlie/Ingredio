@@ -73,4 +73,5 @@
     <string name="save_meal">Save Meal</string>
     <string name="delete_meal">Delete</string>
     <string name="no_meals_planned">No meals planned for this day</string>
+    <string name="chat_fab_description">Open chat</string>
 </resources>

@@ -1,13 +1,12 @@
 plugins {
     alias(libs.plugins.androidApplication)
-    alias(libs.plugins.kotlinAndroid)
     //google services gradle plugin for firebase
     id("com.google.gms.google-services")
 }
 
 android {
     namespace = "com.example.ingredio"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.example.ingredio"
@@ -31,9 +30,6 @@ android {
     }
     buildFeatures {
         viewBinding = true
-    }
-    kotlinOptions {
-        jvmTarget = "1.8"
     }
 }
 
