@@ -93,10 +93,7 @@ class MealPlannerFragment : Fragment() {
     private fun updateCalendarDecorators(allMeals: List<MealPlan>) {
         binding.calendarView.removeDecorators()
         
-        val breakfastDates = mutableSetOf<CalendarDay>()
-        val lunchDates = mutableSetOf<CalendarDay>()
-        val dinnerDates = mutableSetOf<CalendarDay>()
-        val snackDates = mutableSetOf<CalendarDay>()
+        val dayToMeals = mutableMapOf<CalendarDay, MutableList<MealPlan>>()
 
         for (meal in allMeals) {
             try {
@@ -106,23 +103,33 @@ class MealPlannerFragment : Fragment() {
                     cal.time = date
                     val day = CalendarDay.from(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.DAY_OF_MONTH))
                     
-                    when (meal.mealType.lowercase()) {
-                        "breakfast" -> breakfastDates.add(day)
-                        "lunch" -> lunchDates.add(day)
-                        "dinner" -> dinnerDates.add(day)
-                        else -> snackDates.add(day)
-                    }
+                    dayToMeals.getOrPut(day) { mutableListOf() }.add(meal)
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
             }
         }
 
-        // Add decorators for each meal type with different colors (dots)
-        binding.calendarView.addDecorator(EventDecorator(Color.YELLOW, breakfastDates)) // Breakfast
-        binding.calendarView.addDecorator(EventDecorator(Color.GREEN, lunchDates))    // Lunch
-        binding.calendarView.addDecorator(EventDecorator(Color.RED, dinnerDates))      // Dinner
-        binding.calendarView.addDecorator(EventDecorator(Color.GRAY, snackDates))      // Snack
+        val mealTypeOrder = listOf("breakfast", "lunch", "dinner", "snack")
+
+        // Add a MultiEventDecorator for each day that has meals
+        for ((day, meals) in dayToMeals) {
+            val sortedColors = meals
+                .sortedBy { meal ->
+                    val index = mealTypeOrder.indexOf(meal.mealType.lowercase())
+                    if (index == -1) 99 else index
+                }
+                .map { meal ->
+                    when (meal.mealType.lowercase()) {
+                        "breakfast" -> Color.BLUE
+                        "lunch" -> Color.GREEN
+                        "dinner" -> Color.RED
+                        else -> Color.GRAY
+                    }
+                }
+            
+            binding.calendarView.addDecorator(MultiEventDecorator(day, sortedColors))
+        }
     }
 
     private fun showAddMealDialog() {
