@@ -38,6 +38,7 @@ class BrowseRecipesFragment : Fragment() {
 
         setupRecyclerView()
         observeViewModel()
+        setupFilters()
 
         binding.buttonBack.setOnClickListener {
             findNavController().navigateUp()
@@ -45,11 +46,7 @@ class BrowseRecipesFragment : Fragment() {
 
         binding.editTextSearch.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                val query = binding.editTextSearch.text.toString()
-                if (query.isNotEmpty()) {
-                    binding.textViewRecommendationStatus.visibility = View.GONE
-                    viewModel.searchRecipes(query)
-                }
+                performSearch()
                 true
             } else {
                 false
@@ -59,6 +56,47 @@ class BrowseRecipesFragment : Fragment() {
         // Fetch ingredients to get recommendations
         cupboardViewModel.fetchUserIngredients()
         viewModel.fetchSavedRecipes()
+    }
+
+    private fun setupFilters() {
+        binding.chipGroupFilters.setOnCheckedStateChangeListener { _, _ ->
+            performSearch()
+        }
+    }
+
+    private fun performSearch() {
+        val query = binding.editTextSearch.text.toString()
+        val diet = getSelectedDiet()
+        val intolerances = getSelectedIntolerances()
+
+        if (query.isNotEmpty()) {
+            binding.textViewRecommendationStatus.visibility = View.GONE
+            viewModel.searchRecipes(query, diet, intolerances)
+        } else {
+            val ingredients = cupboardViewModel.userIngredients.value?.map { it.name } ?: emptyList()
+            if (ingredients.isNotEmpty()) {
+                binding.textViewRecommendationStatus.visibility = View.VISIBLE
+                viewModel.searchRecipesByIngredients(ingredients, diet, intolerances)
+            }
+        }
+    }
+
+    private fun getSelectedDiet(): String? {
+        val diets = mutableListOf<String>()
+        if (binding.chipVegetarian.isChecked) diets.add("vegetarian")
+        if (binding.chipVegan.isChecked) diets.add("vegan")
+        return if (diets.isNotEmpty()) diets.joinToString(",") else null
+    }
+
+    private fun getSelectedIntolerances(): String? {
+        val intolerances = mutableListOf<String>()
+        if (binding.chipGlutenFree.isChecked) intolerances.add("gluten")
+        if (binding.chipDairyFree.isChecked) intolerances.add("dairy")
+        if (binding.chipNutFree.isChecked) {
+            intolerances.add("peanut")
+            intolerances.add("tree nut")
+        }
+        return if (intolerances.isNotEmpty()) intolerances.joinToString(",") else null
     }
 
     private fun setupRecyclerView() {
@@ -113,9 +151,10 @@ class BrowseRecipesFragment : Fragment() {
 
         cupboardViewModel.userIngredients.observe(viewLifecycleOwner) { ingredients ->
             if (ingredients.isNotEmpty()) {
-                binding.textViewRecommendationStatus.visibility = View.VISIBLE
-                val ingredientNames = ingredients.map { it.name }
-                viewModel.searchRecipesByIngredients(ingredientNames)
+                if (binding.editTextSearch.text.isEmpty()) {
+                    binding.textViewRecommendationStatus.visibility = View.VISIBLE
+                    performSearch()
+                }
             } else {
                 binding.textViewRecommendationStatus.visibility = View.GONE
             }

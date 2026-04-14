@@ -56,4 +56,10 @@
     <string name="recipe_saved">Recipe saved!</string>
     <string name="recipe_removed">Recipe removed</string>
     <string name="no_saved_recipes">No saved recipes yet</string>
+    <string name="filter_vegetarian">Vegetarian</string>
+    <string name="filter_vegan">Vegan</string>
+    <string name="filter_gluten_free">Gluten Free</string>
+    <string name="filter_dairy_free">Dairy Free</string>
+    <string name="filter_nut_free">Nut Free</string>
+    <string name="filters_title">Filters</string>
 </resources>

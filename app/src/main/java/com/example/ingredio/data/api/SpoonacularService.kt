@@ -11,6 +11,8 @@ interface SpoonacularService {
     fun searchRecipes(
         @Query("apiKey") apiKey: String,
         @Query("query") query: String,
+        @Query("diet") diet: String? = null,
+        @Query("intolerances") intolerances: String? = null,
         @Query("number") number: Int = 10,
         @Query("addRecipeInformation") addRecipeInformation: Boolean = true
     ): Call<RecipeResponse>
@@ -19,6 +21,8 @@ interface SpoonacularService {
     fun searchRecipesByIngredients(
         @Query("apiKey") apiKey: String,
         @Query("includeIngredients") ingredients: String,
+        @Query("diet") diet: String? = null,
+        @Query("intolerances") intolerances: String? = null,
         @Query("number") number: Int = 10,
         @Query("addRecipeInformation") addRecipeInformation: Boolean = true,
         @Query("fillIngredients") fillIngredients: Boolean = true

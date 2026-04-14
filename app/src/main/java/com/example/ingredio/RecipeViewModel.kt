@@ -93,8 +93,8 @@ class RecipeViewModel : ViewModel() {
 
     private val apiKey = "cd1c0340258f4c5bad29f95c40644e2e"
 
-    fun searchRecipes(query: String) {
-        spoonacularService.searchRecipes(apiKey, query).enqueue(object : Callback<RecipeResponse> {
+    fun searchRecipes(query: String, diet: String? = null, intolerances: String? = null) {
+        spoonacularService.searchRecipes(apiKey, query, diet, intolerances).enqueue(object : Callback<RecipeResponse> {
             override fun onResponse(call: Call<RecipeResponse>, response: Response<RecipeResponse>) {
                 if (response.isSuccessful) {
                     _recipes.value = response.body()?.results ?: emptyList()
@@ -109,9 +109,9 @@ class RecipeViewModel : ViewModel() {
         })
     }
 
-    fun searchRecipesByIngredients(ingredients: List<String>) {
+    fun searchRecipesByIngredients(ingredients: List<String>, diet: String? = null, intolerances: String? = null) {
         val ingredientQuery = ingredients.joinToString(",")
-        spoonacularService.searchRecipesByIngredients(apiKey, ingredientQuery).enqueue(object : Callback<RecipeResponse> {
+        spoonacularService.searchRecipesByIngredients(apiKey, ingredientQuery, diet, intolerances).enqueue(object : Callback<RecipeResponse> {
             override fun onResponse(call: Call<RecipeResponse>, response: Response<RecipeResponse>) {
                 if (response.isSuccessful) {
                     _recipes.value = response.body()?.results ?: emptyList()
