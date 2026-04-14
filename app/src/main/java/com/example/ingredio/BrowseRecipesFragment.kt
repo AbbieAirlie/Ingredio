@@ -75,8 +75,14 @@ class BrowseRecipesFragment : Fragment() {
                 }
             },
             onSaveRecipe = { recipe ->
-                viewModel.saveRecipe(recipe)
-                Toast.makeText(context, "Recipe saved!", Toast.LENGTH_SHORT).show()
+                val isCurrentlySaved = viewModel.savedRecipes.value?.any { it.id == recipe.id } == true
+                if (isCurrentlySaved) {
+                    viewModel.deleteRecipe(recipe)
+                    Toast.makeText(context, "Recipe removed", Toast.LENGTH_SHORT).show()
+                } else {
+                    viewModel.saveRecipe(recipe)
+                    Toast.makeText(context, "Recipe saved!", Toast.LENGTH_SHORT).show()
+                }
             },
             onAddAllToShoppingList = { recipe ->
                 recipe.extendedIngredients?.forEach { ingredient ->

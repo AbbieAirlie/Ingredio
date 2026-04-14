@@ -35,11 +35,20 @@ class RecipeViewModel : ViewModel() {
 
     fun saveRecipe(recipe: Recipe) {
         val userId = auth.currentUser?.uid ?: return
+        
+        // Optimistic update
+        val currentSaved = _savedRecipes.value?.toMutableList() ?: mutableListOf()
+        if (currentSaved.none { it.id == recipe.id }) {
+            currentSaved.add(recipe)
+            _savedRecipes.value = currentSaved
+        }
+
         db.collection("users").document(userId)
             .collection("savedRecipes").document(recipe.id.toString())
             .set(recipe)
             .addOnFailureListener { e ->
                 _error.value = "Failed to save recipe: ${e.message}"
+                fetchSavedRecipes() // Rollback on failure
             }
     }
 
@@ -59,14 +68,18 @@ class RecipeViewModel : ViewModel() {
 
     fun deleteRecipe(recipe: Recipe) {
         val userId = auth.currentUser?.uid ?: return
+        
+        // Optimistic update
+        val currentSaved = _savedRecipes.value?.toMutableList() ?: mutableListOf()
+        currentSaved.removeAll { it.id == recipe.id }
+        _savedRecipes.value = currentSaved
+
         db.collection("users").document(userId)
             .collection("savedRecipes").document(recipe.id.toString())
             .delete()
-            .addOnSuccessListener {
-                fetchSavedRecipes() // Refresh the list
-            }
             .addOnFailureListener { e ->
                 _error.value = "Failed to delete recipe: ${e.message}"
+                fetchSavedRecipes() // Rollback on failure
             }
     }
 
