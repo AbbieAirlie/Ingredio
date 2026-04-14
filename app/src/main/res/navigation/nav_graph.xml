@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_FirstFragment_to_shoppingListFragment"
             app:destination="@id/shoppingListFragment" />
+        <action
+            android:id="@+id/action_FirstFragment_to_savedRecipesFragment"
+            app:destination="@id/savedRecipesFragment" />
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
@@ -40,6 +43,15 @@
         <action
             android:id="@+id/action_browseRecipesFragment_to_shoppingListFragment"
             app:destination="@id/shoppingListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/savedRecipesFragment"
+        android:name="com.example.ingredio.SavedRecipesFragment"
+        android:label="Saved Recipes"
+        tools:layout="@layout/fragment_saved_recipes">
+        <action
+            android:id="@+id/action_savedRecipesFragment_to_recipeDetailFragment"
+            app:destination="@id/recipeDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/recipeDetailFragment"

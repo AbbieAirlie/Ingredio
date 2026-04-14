@@ -15,42 +15,37 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/editTextSearch"
-        android:layout_width="0dp"
+    <TextView
+        android:id="@+id/textView_title"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:hint="@string/search_recipes_hint"
-        android:autofillHints="none"
-        android:imeOptions="actionSearch"
-        android:inputType="text"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        android:text="@string/saved_recipes_title"
+        android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/button_back" />
 
-    <TextView
-        android:id="@+id/textView_recommendation_status"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:text="@string/recommendation_status"
-        android:textColor="@android:color/black"
-        android:textSize="14sp"
-        android:textStyle="italic"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editTextSearch" />
-
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewRecipes"
+        android:id="@+id/recyclerViewSavedRecipes"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textView_recommendation_status"
+        app:layout_constraintTop_toBottomOf="@id/textView_title"
         tools:listitem="@layout/item_recipe" />
+
+    <TextView
+        android:id="@+id/textView_empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/no_saved_recipes"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView_title" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

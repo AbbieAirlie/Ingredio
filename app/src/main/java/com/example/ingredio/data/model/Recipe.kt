@@ -7,9 +7,9 @@ data class RecipeResponse(
 )
 
 data class Recipe(
-    @SerializedName("id") val id: Int,
-    @SerializedName("title") val title: String,
-    @SerializedName("image") val image: String,
-    @SerializedName("sourceUrl") val sourceUrl: String?,
-    @SerializedName("extendedIngredients") val extendedIngredients: List<Ingredient>?
+    @SerializedName("id") val id: Int = 0,
+    @SerializedName("title") val title: String = "",
+    @SerializedName("image") val image: String = "",
+    @SerializedName("sourceUrl") val sourceUrl: String? = null,
+    @SerializedName("extendedIngredients") val extendedIngredients: List<Ingredient>? = null
 )

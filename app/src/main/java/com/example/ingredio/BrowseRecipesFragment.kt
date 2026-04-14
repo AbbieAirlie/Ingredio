@@ -58,6 +58,7 @@ class BrowseRecipesFragment : Fragment() {
 
         // Fetch ingredients to get recommendations
         cupboardViewModel.fetchUserIngredients()
+        viewModel.fetchSavedRecipes()
     }
 
     private fun setupRecyclerView() {
@@ -72,6 +73,10 @@ class BrowseRecipesFragment : Fragment() {
                 } ?: run {
                     Toast.makeText(context, getString(R.string.no_url_available), Toast.LENGTH_SHORT).show()
                 }
+            },
+            onSaveRecipe = { recipe ->
+                viewModel.saveRecipe(recipe)
+                Toast.makeText(context, "Recipe saved!", Toast.LENGTH_SHORT).show()
             },
             onAddAllToShoppingList = { recipe ->
                 recipe.extendedIngredients?.forEach { ingredient ->
@@ -89,6 +94,11 @@ class BrowseRecipesFragment : Fragment() {
     private fun observeViewModel() {
         viewModel.recipes.observe(viewLifecycleOwner) { recipes ->
             recipeAdapter.updateRecipes(recipes)
+        }
+
+        viewModel.savedRecipes.observe(viewLifecycleOwner) { savedRecipes ->
+            val savedIds = savedRecipes.map { it.id }.toSet()
+            recipeAdapter.updateSavedIds(savedIds)
         }
 
         viewModel.error.observe(viewLifecycleOwner) { errorMessage ->

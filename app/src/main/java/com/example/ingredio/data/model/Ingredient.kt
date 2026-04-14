@@ -7,9 +7,9 @@ data class IngredientResponse(
 )
 
 data class Ingredient(
-    @SerializedName("id") val id: Int,
-    @SerializedName("name") val name: String,
-    @SerializedName("image") val image: String,
+    @SerializedName("id") val id: Int = 0,
+    @SerializedName("name") val name: String = "",
+    @SerializedName("image") val image: String = "",
     val expiryDate: Long? = null,
     val expiryType: String? = null, // "Use By" or "Best Before"
     val storageType: String? = null // "Ambient", "Fresh", "Frozen"

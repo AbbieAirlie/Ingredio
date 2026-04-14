@@ -8,6 +8,8 @@ import com.example.ingredio.data.model.Ingredient
 import com.example.ingredio.data.model.IngredientResponse
 import com.example.ingredio.data.model.Recipe
 import com.example.ingredio.data.model.RecipeResponse
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -19,11 +21,54 @@ class RecipeViewModel : ViewModel() {
     private val _recipes = MutableLiveData<List<Recipe>>()
     val recipes: LiveData<List<Recipe>> get() = _recipes
 
+    private val _savedRecipes = MutableLiveData<List<Recipe>>()
+    val savedRecipes: LiveData<List<Recipe>> get() = _savedRecipes
+
     private val _ingredients = MutableLiveData<List<Ingredient>>()
     val ingredients: LiveData<List<Ingredient>> get() = _ingredients
 
     private val _error = MutableLiveData<String>()
     val error: LiveData<String> get() = _error
+
+    private val db = FirebaseFirestore.getInstance()
+    private val auth = FirebaseAuth.getInstance()
+
+    fun saveRecipe(recipe: Recipe) {
+        val userId = auth.currentUser?.uid ?: return
+        db.collection("users").document(userId)
+            .collection("savedRecipes").document(recipe.id.toString())
+            .set(recipe)
+            .addOnFailureListener { e ->
+                _error.value = "Failed to save recipe: ${e.message}"
+            }
+    }
+
+    fun fetchSavedRecipes() {
+        val userId = auth.currentUser?.uid ?: return
+        db.collection("users").document(userId)
+            .collection("savedRecipes")
+            .get()
+            .addOnSuccessListener { result ->
+                val savedList = result.map { it.toObject(Recipe::class.java) }
+                _savedRecipes.value = savedList
+            }
+            .addOnFailureListener { e ->
+                _error.value = "Failed to fetch saved recipes: ${e.message}"
+            }
+    }
+
+    fun deleteRecipe(recipe: Recipe) {
+        val userId = auth.currentUser?.uid ?: return
+        db.collection("users").document(userId)
+            .collection("savedRecipes").document(recipe.id.toString())
+            .delete()
+            .addOnSuccessListener {
+                fetchSavedRecipes() // Refresh the list
+            }
+            .addOnFailureListener { e ->
+                _error.value = "Failed to delete recipe: ${e.message}"
+            }
+    }
 
     private val spoonacularService: SpoonacularService by lazy {
         Retrofit.Builder()
