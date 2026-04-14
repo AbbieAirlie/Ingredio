@@ -54,10 +54,22 @@
             android:layout_marginTop="8dp"
             android:text="@string/saved_recipes_title"
             android:backgroundTint="@color/ingredio_green"
-            app:layout_constraintBottom_toTopOf="@+id/textview_first"
+            app:layout_constraintBottom_toTopOf="@+id/button_meal_planner"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/button_shopping_list" />
+
+        <Button
+            android:id="@+id/button_meal_planner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/meal_planner_title"
+            android:backgroundTint="@color/ingredio_green"
+            app:layout_constraintBottom_toTopOf="@+id/textview_first"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button_saved_recipes" />
 
         <TextView
             android:id="@+id/textview_first"
@@ -69,6 +81,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/button_saved_recipes" />
+            app:layout_constraintTop_toBottomOf="@id/button_meal_planner" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

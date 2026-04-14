@@ -62,4 +62,15 @@
     <string name="filter_dairy_free">Dairy Free</string>
     <string name="filter_nut_free">Nut Free</string>
     <string name="filters_title">Filters</string>
+    <string name="meal_planner_title">Meal Planner</string>
+    <string name="add_meal_plan">Add Meal Plan</string>
+    <string name="custom_meal_hint">Enter custom meal name...</string>
+    <string name="select_recipe">Select a saved recipe</string>
+    <string name="meal_type_breakfast">Breakfast</string>
+    <string name="meal_type_lunch">Lunch</string>
+    <string name="meal_type_dinner">Dinner</string>
+    <string name="meal_type_snack">Snack</string>
+    <string name="save_meal">Save Meal</string>
+    <string name="delete_meal">Delete</string>
+    <string name="no_meals_planned">No meals planned for this day</string>
 </resources>

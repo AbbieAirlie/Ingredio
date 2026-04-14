@@ -65,4 +65,7 @@ dependencies {
     // ViewModel & LiveData
     implementation(libs.lifecycle.viewmodel.ktx)
     implementation(libs.lifecycle.livedata.ktx)
+
+    // Material Calendar View for dots
+    implementation("com.github.prolificinteractive:material-calendarview:2.0.1")
 }

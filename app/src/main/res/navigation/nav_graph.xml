@@ -22,7 +22,15 @@
         <action
             android:id="@+id/action_FirstFragment_to_savedRecipesFragment"
             app:destination="@id/savedRecipesFragment" />
+        <action
+            android:id="@+id/action_FirstFragment_to_mealPlannerFragment"
+            app:destination="@id/mealPlannerFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/mealPlannerFragment"
+        android:name="com.example.ingredio.MealPlannerFragment"
+        android:label="Meal Planner"
+        tools:layout="@layout/fragment_meal_planner" />
     <fragment
         android:id="@+id/SecondFragment"
         android:name="com.example.ingredio.menuCupboard"
@@ -31,7 +39,15 @@
         <action
             android:id="@+id/action_SecondFragment_to_FirstFragment"
             app:destination="@id/FirstFragment" />
+        <action
+            android:id="@+id/action_FirstFragment_to_mealPlannerFragment"
+            app:destination="@id/mealPlannerFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/mealPlannerFragment"
+        android:name="com.example.ingredio.MealPlannerFragment"
+        android:label="Meal Planner"
+        tools:layout="@layout/fragment_meal_planner" />
     <fragment
         android:id="@+id/browseRecipesFragment"
         android:name="com.example.ingredio.BrowseRecipesFragment"
@@ -43,7 +59,15 @@
         <action
             android:id="@+id/action_browseRecipesFragment_to_shoppingListFragment"
             app:destination="@id/shoppingListFragment" />
+        <action
+            android:id="@+id/action_FirstFragment_to_mealPlannerFragment"
+            app:destination="@id/mealPlannerFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/mealPlannerFragment"
+        android:name="com.example.ingredio.MealPlannerFragment"
+        android:label="Meal Planner"
+        tools:layout="@layout/fragment_meal_planner" />
     <fragment
         android:id="@+id/savedRecipesFragment"
         android:name="com.example.ingredio.SavedRecipesFragment"
@@ -52,7 +76,15 @@
         <action
             android:id="@+id/action_savedRecipesFragment_to_recipeDetailFragment"
             app:destination="@id/recipeDetailFragment" />
+        <action
+            android:id="@+id/action_FirstFragment_to_mealPlannerFragment"
+            app:destination="@id/mealPlannerFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/mealPlannerFragment"
+        android:name="com.example.ingredio.MealPlannerFragment"
+        android:label="Meal Planner"
+        tools:layout="@layout/fragment_meal_planner" />
     <fragment
         android:id="@+id/recipeDetailFragment"
         android:name="com.example.ingredio.RecipeDetailFragment"
@@ -61,7 +93,15 @@
         <argument
             android:name="url"
             app:argType="string" />
+        <action
+            android:id="@+id/action_FirstFragment_to_mealPlannerFragment"
+            app:destination="@id/mealPlannerFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/mealPlannerFragment"
+        android:name="com.example.ingredio.MealPlannerFragment"
+        android:label="Meal Planner"
+        tools:layout="@layout/fragment_meal_planner" />
     <fragment
         android:id="@+id/shoppingListFragment"
         android:name="com.example.ingredio.ShoppingListFragment"
