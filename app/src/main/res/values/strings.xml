@@ -30,6 +30,8 @@
     <string name="move_button">Move</string>
     <string name="move_to_cupboard">To Cupboard</string>
     <string name="move_to_shopping_list">To Shopping List</string>
+    <string name="edit_button">Edit</string>
+    <string name="update_button">Update</string>
     <string name="details_placeholder">Details</string>
 
     <!-- Recipe Search -->

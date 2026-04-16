@@ -49,7 +49,38 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:gravity="end">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/button_edit"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@android:drawable/ic_menu_edit"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:visibility="gone"
+                    android:contentDescription="@string/edit_button"
+                    android:padding="6dp"
+                    android:scaleType="fitCenter"
+                    app:tint="#AFAFAF" />
+
+                <ImageButton
+                    android:id="@+id/button_delete"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@android:drawable/ic_menu_delete"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:visibility="gone"
+                    android:contentDescription="@string/remove_button"
+                    android:padding="6dp"
+                    android:scaleType="fitCenter"
+                    app:tint="#AFAFAF" />
+            </LinearLayout>
 
             <Button
                 android:id="@+id/button_action_1"
@@ -57,7 +88,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/add_button"
                 android:backgroundTint="@color/ingredio_green"
-                android:minWidth="100dp" />
+                android:minWidth="100dp"
+                android:textSize="12sp" />
 
             <Button
                 android:id="@+id/button_action_2"
@@ -67,7 +99,8 @@
                 android:visibility="gone"
                 android:backgroundTint="@color/teal_700"
                 android:layout_marginTop="4dp"
-                android:minWidth="100dp" />
+                android:minWidth="100dp"
+                android:textSize="12sp" />
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>
