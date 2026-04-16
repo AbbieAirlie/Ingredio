@@ -137,7 +137,15 @@ class BrowseRecipesFragment : Fragment() {
 
     private fun observeViewModel() {
         viewModel.recipes.observe(viewLifecycleOwner) { recipes ->
+            android.util.Log.d("BrowseRecipes", "Recipes received: ${recipes.size}")
             recipeAdapter.updateRecipes(recipes)
+            if (recipes.isEmpty() && binding.editTextSearch.text.isEmpty() && cupboardViewModel.userIngredients.value?.isNotEmpty() == true) {
+                // If we got no results for ingredients, maybe try searching for just the first few ingredients
+                val ingredients = cupboardViewModel.userIngredients.value?.take(3)?.map { it.name } ?: emptyList()
+                if (ingredients.size < (cupboardViewModel.userIngredients.value?.size ?: 0)) {
+                    viewModel.searchRecipesByIngredients(ingredients, getSelectedDiet(), getSelectedIntolerances())
+                }
+            }
         }
 
         viewModel.savedRecipes.observe(viewLifecycleOwner) { savedRecipes ->
@@ -150,12 +158,21 @@ class BrowseRecipesFragment : Fragment() {
         }
 
         cupboardViewModel.userIngredients.observe(viewLifecycleOwner) { ingredients ->
+            android.util.Log.d("BrowseRecipes", "Cupboard ingredients: ${ingredients.size}")
             if (ingredients.isNotEmpty()) {
                 if (binding.editTextSearch.text.isEmpty()) {
                     binding.textViewRecommendationStatus.visibility = View.VISIBLE
-                    performSearch()
+                    
+                    val diet = getSelectedDiet()
+                    val intolerances = getSelectedIntolerances()
+                    val ingredientNames = ingredients.map { it.name }
+                    
+                    viewModel.searchRecipesByIngredients(ingredientNames, diet, intolerances)
                 }
             } else {
+                if (binding.editTextSearch.text.isEmpty()) {
+                    recipeAdapter.updateRecipes(emptyList())
+                }
                 binding.textViewRecommendationStatus.visibility = View.GONE
             }
         }

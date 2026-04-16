@@ -27,6 +27,9 @@
     <string name="ingredient_image_desc">Ingredient image</string>
     <string name="add_button">Add</string>
     <string name="remove_button">Remove</string>
+    <string name="move_button">Move</string>
+    <string name="move_to_cupboard">To Cupboard</string>
+    <string name="move_to_shopping_list">To Shopping List</string>
     <string name="details_placeholder">Details</string>
 
     <!-- Recipe Search -->

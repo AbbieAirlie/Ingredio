@@ -27,6 +27,8 @@ class menuCupboard : Fragment() {
     private val cupboardViewModel: CupboardViewModel by viewModels()
     private val searchViewModel: RecipeViewModel by viewModels()
 
+    private val shoppingViewModel: ShoppingListViewModel by viewModels()
+
     private lateinit var cupboardAdapter: IngredientAdapter
     private lateinit var searchAdapter: IngredientAdapter
 
@@ -66,18 +68,31 @@ class menuCupboard : Fragment() {
 
     private fun setupRecyclerViews() {
         // Cupboard List
-        cupboardAdapter = IngredientAdapter(emptyList(), "Remove") { ingredient ->
-            cupboardViewModel.removeIngredientFromCupboard(ingredient.id)
-        }
+        cupboardAdapter = IngredientAdapter(
+            ingredients = emptyList(),
+            button1Text = getString(R.string.remove_button),
+            button2Text = getString(R.string.move_to_shopping_list),
+            onButton1Click = { ingredient ->
+                cupboardViewModel.removeIngredientFromCupboard(ingredient.id)
+            },
+            onButton2Click = { ingredient ->
+                shoppingViewModel.addIngredientToShoppingList(ingredient)
+                cupboardViewModel.removeIngredientFromCupboard(ingredient.id)
+            }
+        )
         binding.recyclerViewCupboard.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = cupboardAdapter
         }
 
         // Search Results List
-        searchAdapter = IngredientAdapter(emptyList(), "Add") { ingredient ->
-            showAddDetailsDialog(ingredient)
-        }
+        searchAdapter = IngredientAdapter(
+            ingredients = emptyList(),
+            button1Text = getString(R.string.add_button),
+            onButton1Click = { ingredient ->
+                showAddDetailsDialog(ingredient)
+            }
+        )
         binding.recyclerViewSearchResults.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = searchAdapter

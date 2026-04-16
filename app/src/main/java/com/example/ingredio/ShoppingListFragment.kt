@@ -20,6 +20,8 @@ class ShoppingListFragment : Fragment() {
     private val shoppingViewModel: ShoppingListViewModel by viewModels()
     private val searchViewModel: RecipeViewModel by viewModels()
 
+    private val cupboardViewModel: CupboardViewModel by viewModels()
+
     private lateinit var shoppingAdapter: IngredientAdapter
     private lateinit var searchAdapter: IngredientAdapter
 
@@ -59,20 +61,33 @@ class ShoppingListFragment : Fragment() {
 
     private fun setupRecyclerViews() {
         // Shopping List
-        shoppingAdapter = IngredientAdapter(emptyList(), getString(R.string.remove_button)) { ingredient ->
-            shoppingViewModel.removeIngredientFromShoppingList(ingredient.id)
-        }
+        shoppingAdapter = IngredientAdapter(
+            ingredients = emptyList(),
+            button1Text = getString(R.string.remove_button),
+            button2Text = getString(R.string.move_to_cupboard),
+            onButton1Click = { ingredient ->
+                shoppingViewModel.removeIngredientFromShoppingList(ingredient.id)
+            },
+            onButton2Click = { ingredient ->
+                cupboardViewModel.addIngredientToCupboard(ingredient)
+                shoppingViewModel.removeIngredientFromShoppingList(ingredient.id)
+            }
+        )
         binding.recyclerViewShoppingList.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = shoppingAdapter
         }
 
         // Search Results List
-        searchAdapter = IngredientAdapter(emptyList(), getString(R.string.add_button)) { ingredient ->
-            shoppingViewModel.addIngredientToShoppingList(ingredient)
-            binding.editTextSearchShopping.text.clear()
-            binding.recyclerViewSearchResults.visibility = View.GONE
-        }
+        searchAdapter = IngredientAdapter(
+            ingredients = emptyList(),
+            button1Text = getString(R.string.add_button),
+            onButton1Click = { ingredient ->
+                shoppingViewModel.addIngredientToShoppingList(ingredient)
+                binding.editTextSearchShopping.text.clear()
+                binding.recyclerViewSearchResults.visibility = View.GONE
+            }
+        )
         binding.recyclerViewSearchResults.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = searchAdapter

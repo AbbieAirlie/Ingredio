@@ -13,8 +13,10 @@ import java.util.Locale
 
 class IngredientAdapter(
     private var ingredients: List<Ingredient>,
-    private val buttonText: String = "Add",
-    private val onButtonClick: (Ingredient) -> Unit
+    private val button1Text: String = "Add",
+    private val button2Text: String? = null,
+    private val onButton1Click: (Ingredient) -> Unit,
+    private val onButton2Click: ((Ingredient) -> Unit)? = null
 ) : RecyclerView.Adapter<IngredientAdapter.IngredientViewHolder>() {
 
     inner class IngredientViewHolder(val binding: ItemIngredientBinding) :
@@ -32,8 +34,16 @@ class IngredientAdapter(
     override fun onBindViewHolder(holder: IngredientViewHolder, position: Int) {
         val ingredient = ingredients[position]
         holder.binding.textViewIngredientName.text = ingredient.name
-        holder.binding.buttonAddIngredient.text = buttonText
+        holder.binding.buttonAction1.text = button1Text
         
+        if (button2Text != null && onButton2Click != null) {
+            holder.binding.buttonAction2.text = button2Text
+            holder.binding.buttonAction2.visibility = android.view.View.VISIBLE
+            holder.binding.buttonAction2.setOnClickListener { onButton2Click.invoke(ingredient) }
+        } else {
+            holder.binding.buttonAction2.visibility = android.view.View.GONE
+        }
+
         Glide.with(holder.itemView.context)
             .load(ingredient.imageUrl)
             .into(holder.binding.imageViewIngredient)
@@ -48,8 +58,8 @@ class IngredientAdapter(
             holder.binding.textViewIngredientDetails.visibility = android.view.View.GONE
         }
 
-        holder.binding.buttonAddIngredient.setOnClickListener {
-            onButtonClick(ingredient)
+        holder.binding.buttonAction1.setOnClickListener {
+            onButton1Click(ingredient)
         }
     }
 

@@ -133,30 +133,37 @@ class RecipeViewModel : ViewModel() {
     }
 
     fun searchRecipesByIngredients(ingredients: List<String>, diet: String? = null, intolerances: String? = null) {
-        // Check cache
-        if (ingredients == lastIngredientQuery && diet == lastIngredientDiet && intolerances == lastIngredientIntolerances && cachedIngredientRecipes != null) {
-            _recipes.value = cachedIngredientRecipes
+        if (ingredients.isEmpty()) {
+            _recipes.value = emptyList()
             return
         }
 
-        val ingredientQuery = ingredients.joinToString(",")
+        // Use a more relaxed search: take up to 3 ingredients to avoid over-filtering
+        // Spoonacular's includeIngredients is very strict (AND logic).
+        val ingredientQuery = ingredients.take(3).joinToString(",")
+
         spoonacularService.searchRecipesByIngredients(apiKey, ingredientQuery, diet, intolerances).enqueue(object : Callback<RecipeResponse> {
             override fun onResponse(call: Call<RecipeResponse>, response: Response<RecipeResponse>) {
                 if (response.isSuccessful) {
                     val results = response.body()?.results ?: emptyList()
-                    // Update cache
-                    lastIngredientQuery = ingredients
-                    lastIngredientDiet = diet
-                    lastIngredientIntolerances = intolerances
-                    cachedIngredientRecipes = results
-                    _recipes.value = results
+                    
+                    if (results.isEmpty() && ingredients.isNotEmpty()) {
+                        // Fallback: If strict ingredient search fails, try a general search with the first ingredient
+                        searchRecipes(ingredients[0], diet, intolerances)
+                    } else {
+                        _recipes.value = results
+                        lastIngredientQuery = ingredients
+                        lastIngredientDiet = diet
+                        lastIngredientIntolerances = intolerances
+                        cachedIngredientRecipes = results
+                    }
                 } else {
-                    _error.value = "Error: ${response.code()}"
+                    _error.value = "API Error ${response.code()}"
                 }
             }
 
             override fun onFailure(call: Call<RecipeResponse>, t: Throwable) {
-                _error.value = "Failure: ${t.message}"
+                _error.value = "Network Failure: ${t.message}"
             }
         })
     }

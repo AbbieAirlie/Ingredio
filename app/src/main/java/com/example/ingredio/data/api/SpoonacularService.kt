@@ -25,7 +25,8 @@ interface SpoonacularService {
         @Query("intolerances") intolerances: String? = null,
         @Query("number") number: Int = 10,
         @Query("addRecipeInformation") addRecipeInformation: Boolean = true,
-        @Query("fillIngredients") fillIngredients: Boolean = true
+        @Query("fillIngredients") fillIngredients: Boolean = true,
+        @Query("sort") sort: String = "max-used-ingredients"
     ): Call<RecipeResponse>
 
     @GET("food/ingredients/search")

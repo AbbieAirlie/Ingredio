@@ -54,9 +54,13 @@ class AddItemsFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        ingredientAdapter = IngredientAdapter(emptyList()) { ingredient ->
-            cupboardViewModel.addIngredientToCupboard(ingredient)
-        }
+        ingredientAdapter = IngredientAdapter(
+            ingredients = emptyList(),
+            button1Text = getString(R.string.add_button),
+            onButton1Click = { ingredient ->
+                cupboardViewModel.addIngredientToCupboard(ingredient)
+            }
+        )
         binding.recyclerViewIngredients.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = ingredientAdapter
