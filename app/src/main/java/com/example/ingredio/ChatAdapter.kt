@@ -32,12 +32,12 @@ class ChatAdapter(private val messages: List<ChatMessage>) :
         val params = holder.cardMessage.layoutParams as LinearLayout.LayoutParams
         if (message.isUser) {
             holder.layout.gravity = Gravity.END
-            holder.cardMessage.setCardBackgroundColor(0xFFDCF8C6.toInt()) // Light green
+            holder.cardMessage.setCardBackgroundColor(androidx.core.content.ContextCompat.getColor(holder.itemView.context, R.color.ingredio_green))
             params.marginStart = 100
             params.marginEnd = 0
         } else {
             holder.layout.gravity = Gravity.START
-            holder.cardMessage.setCardBackgroundColor(0xFFFFFFFF.toInt()) // White
+            holder.cardMessage.setCardBackgroundColor(android.graphics.Color.WHITE)
             params.marginStart = 0
             params.marginEnd = 100
         }

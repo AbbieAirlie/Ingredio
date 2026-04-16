@@ -4,83 +4,113 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true"
     tools:context=".menuMain">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="16dp">
+        android:layout_height="wrap_content"
+        android:padding="24dp">
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/button_first"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/cupboard"
-            android:backgroundTint="@color/ingredio_green"
-            app:layout_constraintBottom_toTopOf="@id/button_second"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_chainStyle="packed"/>
-
-        <Button
-            android:id="@+id/button_second"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@string/recipes"
-            android:backgroundTint="@color/ingredio_green"
-            app:layout_constraintBottom_toTopOf="@+id/button_shopping_list"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button_first" />
-
-        <Button
-            android:id="@+id/button_shopping_list"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@string/shopping_list_button"
-            android:backgroundTint="@color/ingredio_green"
-            app:layout_constraintBottom_toTopOf="@+id/button_saved_recipes"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button_second" />
-
-        <Button
-            android:id="@+id/button_saved_recipes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@string/saved_recipes_title"
-            android:backgroundTint="@color/ingredio_green"
-            app:layout_constraintBottom_toTopOf="@+id/button_meal_planner"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button_shopping_list" />
-
-        <Button
-            android:id="@+id/button_meal_planner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@string/meal_planner_title"
-            android:backgroundTint="@color/ingredio_green"
-            app:layout_constraintBottom_toTopOf="@+id/textview_first"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button_saved_recipes" />
-
-        <TextView
-            android:id="@+id/textview_first"
-            android:layout_width="wrap_content"
+            style="@style/Widget.Material3.Button.TonalButton"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="@string/main_text"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:backgroundTint="@color/ingredio_green"
+            android:padding="20dp"
+            android:text="@string/cupboard"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:cornerRadius="16dp"
+            app:icon="@drawable/ic_cupboard"
+            app:iconPadding="12dp"
+            app:iconSize="28dp"
+            app:iconTint="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/button_meal_planner" />
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_second"
+            style="@style/Widget.Material3.Button.TonalButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@color/ingredio_green"
+            android:padding="20dp"
+            android:text="@string/recipes"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:cornerRadius="16dp"
+            app:icon="@drawable/ic_browse"
+            app:iconPadding="12dp"
+            app:iconSize="28dp"
+            app:iconTint="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/button_first" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_shopping_list"
+            style="@style/Widget.Material3.Button.TonalButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@color/ingredio_green"
+            android:padding="20dp"
+            android:text="@string/shopping_list_button"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:cornerRadius="16dp"
+            app:icon="@drawable/ic_shopping_list"
+            app:iconPadding="12dp"
+            app:iconSize="28dp"
+            app:iconTint="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/button_second" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_saved_recipes"
+            style="@style/Widget.Material3.Button.TonalButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@color/ingredio_green"
+            android:padding="20dp"
+            android:text="@string/saved_recipes_title"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:cornerRadius="16dp"
+            app:icon="@drawable/ic_saved"
+            app:iconPadding="12dp"
+            app:iconSize="28dp"
+            app:iconTint="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/button_shopping_list" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_meal_planner"
+            style="@style/Widget.Material3.Button.TonalButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@color/ingredio_green"
+            android:padding="20dp"
+            android:text="@string/meal_planner_title"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:cornerRadius="16dp"
+            app:icon="@drawable/ic_calendar"
+            app:iconPadding="12dp"
+            app:iconSize="28dp"
+            app:iconTint="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/button_saved_recipes" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>
