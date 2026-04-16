@@ -51,6 +51,23 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         NavigationUI.setupWithNavController(bottomNav, navController);
 
+        // Logic to hide BottomNavigationView when keyboard is open
+        View rootView = findViewById(android.R.id.content);
+        rootView.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
+            android.graphics.Rect r = new android.graphics.Rect();
+            rootView.getWindowVisibleDisplayFrame(r);
+            int screenHeight = rootView.getRootView().getHeight();
+            int keypadHeight = screenHeight - r.bottom;
+
+            if (keypadHeight > screenHeight * 0.15) { // Keyboard is visible
+                bottomNav.setVisibility(View.GONE);
+                binding.fab.setVisibility(View.GONE);
+            } else { // Keyboard is hidden
+                bottomNav.setVisibility(View.VISIBLE);
+                binding.fab.setVisibility(View.VISIBLE);
+            }
+        });
+
         binding.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
