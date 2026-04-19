@@ -73,13 +73,13 @@ class menuCupboard : Fragment() {
             mainButtonText = getString(R.string.move_to_shopping_list),
             onMainButtonClick = { ingredient ->
                 shoppingViewModel.addIngredientToShoppingList(ingredient)
-                cupboardViewModel.removeIngredientFromCupboard(ingredient.id)
+                cupboardViewModel.removeIngredientFromCupboard(ingredient)
             },
             onEditClick = { ingredient ->
                 showEditDetailsDialog(ingredient)
             },
             onDeleteClick = { ingredient ->
-                cupboardViewModel.removeIngredientFromCupboard(ingredient.id)
+                cupboardViewModel.removeIngredientFromCupboard(ingredient)
             }
         )
         binding.recyclerViewCupboard.apply {

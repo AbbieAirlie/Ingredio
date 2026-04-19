@@ -9,14 +9,24 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ingredio.data.model.ChatMessage
+import com.example.ingredio.data.model.Recipe
 
-class ChatAdapter(private val messages: List<ChatMessage>) :
-    RecyclerView.Adapter<ChatAdapter.ChatViewHolder>() {
+class ChatAdapter(
+    private var messages: List<ChatMessage>,
+    private val onRecipeClick: (Recipe) -> Unit,
+    private val onSaveRecipe: (Recipe) -> Unit
+) : RecyclerView.Adapter<ChatAdapter.ChatViewHolder>() {
+
+    fun updateMessages(newMessages: List<ChatMessage>) {
+        messages = newMessages
+        notifyDataSetChanged()
+    }
 
     class ChatViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val textMessage: TextView = view.findViewById(R.id.textMessage)
         val cardMessage: CardView = view.findViewById(R.id.cardMessage)
         val layout: LinearLayout = view as LinearLayout
+        val recyclerRecipes: RecyclerView = view.findViewById(R.id.recyclerRecipes)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatViewHolder {
@@ -30,16 +40,26 @@ class ChatAdapter(private val messages: List<ChatMessage>) :
         holder.textMessage.text = message.content
         
         val params = holder.cardMessage.layoutParams as LinearLayout.LayoutParams
-        if (message.isUser) {
+        if (message.fromUser) {
             holder.layout.gravity = Gravity.END
             holder.cardMessage.setCardBackgroundColor(androidx.core.content.ContextCompat.getColor(holder.itemView.context, R.color.ingredio_green))
             params.marginStart = 100
             params.marginEnd = 0
+            holder.recyclerRecipes.visibility = View.GONE
         } else {
             holder.layout.gravity = Gravity.START
             holder.cardMessage.setCardBackgroundColor(android.graphics.Color.WHITE)
             params.marginStart = 0
             params.marginEnd = 100
+            
+            if (message.recipes != null && message.recipes.isNotEmpty()) {
+                holder.recyclerRecipes.visibility = View.VISIBLE
+                holder.recyclerRecipes.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(holder.itemView.context, RecyclerView.HORIZONTAL, false)
+                val recipeAdapter = RecipeAdapter(message.recipes, onRecipeClick, onSaveRecipe)
+                holder.recyclerRecipes.adapter = recipeAdapter
+            } else {
+                holder.recyclerRecipes.visibility = View.GONE
+            }
         }
         holder.cardMessage.layoutParams = params
     }

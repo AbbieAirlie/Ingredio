@@ -52,12 +52,12 @@ class CupboardViewModel : ViewModel() {
     fun addIngredientWithDetails(
         ingredient: Ingredient,
         expiryDate: Long?,
-        expiryType: String,
-        storageType: String
+        expiryType: String?,
+        storageType: String?
     ) {
         val userId = auth.currentUser?.uid ?: return
 
-        val ingredientData = hashMapOf(
+        val ingredientData = mutableMapOf<String, Any?>(
             "id" to ingredient.id,
             "name" to ingredient.name,
             "image" to ingredient.image,
@@ -66,15 +66,15 @@ class CupboardViewModel : ViewModel() {
             "storageType" to storageType
         )
 
+        val docId = ingredient.name.lowercase().trim().ifEmpty { "unknown_${System.currentTimeMillis()}" }
         db.collection("users").document(userId).collection("cupboard")
-            .document(ingredient.id.toString())
+            .document(docId)
             .set(ingredientData)
             .addOnSuccessListener {
-                _status.value = "${ingredient.name} added to cupboard"
-                // No need to call fetchUserIngredients() here as the listener handles it
+                _status.value = "${ingredient.name} updated in cupboard"
             }
             .addOnFailureListener { e ->
-                _status.value = "Error adding ingredient: ${e.message}"
+                _status.value = "Error updating ingredient: ${e.message}"
             }
     }
 
@@ -90,26 +90,26 @@ class CupboardViewModel : ViewModel() {
             "image" to ingredient.image
         )
 
+        val docId = ingredient.name.lowercase().trim().ifEmpty { "unknown_${System.currentTimeMillis()}" }
         db.collection("users").document(userId).collection("cupboard")
-            .document(ingredient.id.toString())
-            .set(ingredientData)
+            .document(docId)
+            .set(ingredientData, com.google.firebase.firestore.SetOptions.merge())
             .addOnSuccessListener {
                 _status.value = "${ingredient.name} added to cupboard"
-                // No need to call fetchUserIngredients() here
             }
             .addOnFailureListener { e ->
                 _status.value = "Error adding ingredient: ${e.message}"
             }
     }
 
-    fun removeIngredientFromCupboard(ingredientId: Int) {
+    fun removeIngredientFromCupboard(ingredient: Ingredient) {
         val userId = auth.currentUser?.uid ?: return
+        val docId = ingredient.name.lowercase().trim().ifEmpty { ingredient.id.toString() }
         db.collection("users").document(userId).collection("cupboard")
-            .document(ingredientId.toString())
+            .document(docId)
             .delete()
             .addOnSuccessListener {
                 _status.value = "Ingredient removed"
-                // No need to call fetchUserIngredients() here
             }
     }
 
