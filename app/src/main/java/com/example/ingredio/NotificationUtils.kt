@@ -5,10 +5,15 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import com.example.ingredio.data.model.Ingredient
+import java.util.Calendar
 
 object NotificationUtils {
     fun scheduleExpirationNotification(context: Context, ingredient: Ingredient) {
         val expiryDate = ingredient.expiryDate ?: return
+        
+        val sharedPref = context.getSharedPreferences("IngredioSettings", Context.MODE_PRIVATE)
+        val daysBefore = sharedPref.getInt("notification_days_before", 1)
+        
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         
         val intent = Intent(context, ExpirationReceiver::class.java).apply {
@@ -17,16 +22,31 @@ object NotificationUtils {
         
         val pendingIntent = PendingIntent.getBroadcast(
             context,
-            ingredient.id, // Use ingredient ID as request code to avoid overwriting
+            ingredient.id,
             intent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
-        // For demonstration/testing, we schedule it for the exact expiry time.
-        // In a real app, you might want to schedule it 1 day before at a specific hour.
+        // Calculate trigger time: expiryDate - (daysBefore in milliseconds)
+        val calendar = Calendar.getInstance().apply {
+            timeInMillis = expiryDate
+            add(Calendar.DAY_OF_YEAR, -daysBefore)
+            // Set it to trigger at 9:00 AM on that day
+            set(Calendar.HOUR_OF_DAY, 9)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+        }
+
+        var triggerTime = calendar.timeInMillis
+        
+        // If the calculated time is in the past, schedule it for 5 seconds from now for immediate feedback
+        if (triggerTime < System.currentTimeMillis()) {
+            triggerTime = System.currentTimeMillis() + 5000
+        }
+
         alarmManager.setExactAndAllowWhileIdle(
             AlarmManager.RTC_WAKEUP,
-            expiryDate,
+            triggerTime,
             pendingIntent
         )
     }
