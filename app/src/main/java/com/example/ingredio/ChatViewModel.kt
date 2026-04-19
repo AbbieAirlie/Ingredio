@@ -6,16 +6,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.ingredio.data.model.ChatMessage
 import com.example.ingredio.data.model.Ingredient
-import com.google.ai.client.generativeai.GenerativeModel
-import com.google.ai.client.generativeai.type.BlockThreshold
-import com.google.ai.client.generativeai.type.HarmCategory
-import com.google.ai.client.generativeai.type.RequestOptions
-import com.google.ai.client.generativeai.type.SafetySetting
-import com.google.ai.client.generativeai.type.content
-import com.google.ai.client.generativeai.type.generationConfig
+import com.google.firebase.Firebase
+import com.google.firebase.vertexai.vertexAI
+import com.google.firebase.vertexai.type.content
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class ChatViewModel : ViewModel() {
@@ -23,29 +18,20 @@ class ChatViewModel : ViewModel() {
     private val _messages = MutableLiveData<MutableList<ChatMessage>>(mutableListOf())
     val messages: LiveData<MutableList<ChatMessage>> get() = _messages
 
-    // Get a free key at https://aistudio.google.com/
-    private val geminiApiKey = "AIzaSyBrtP6lZlrrgxeU-y8-HWxN6sltn90DA1s"
-
-    private val generativeModel = GenerativeModel(
-        modelName = "gemini-1.5-flash",
-        apiKey = geminiApiKey,
-        generationConfig = generationConfig {
-            temperature = 0.7f
-            topK = 40
-            topP = 0.95f
-            maxOutputTokens = 1024
-        },
-        safetySettings = listOf(
-            SafetySetting(HarmCategory.HARASSMENT, BlockThreshold.MEDIUM_AND_ABOVE)
-        ),
-        requestOptions = RequestOptions(apiVersion = "v1")
-    )
-
-    private val systemInstruction = "You are a helpful kitchen assistant. You can manage the user's cupboard and suggest recipes. " +
+    private val systemInstructionText = "You are a helpful kitchen assistant. You can manage the user's cupboard and suggest recipes. " +
             "If the user wants to add an ingredient, you MUST include a special tag in your response: [ADD_INGREDIENT:Name,ID]. " +
             "If the user wants to remove an ingredient, use [REMOVE_INGREDIENT:ID]. " +
             "If the user wants to search for recipes, use [SEARCH_RECIPE:Query]. " +
             "Always respond politely."
+
+    // Initialize Vertex AI for Firebase (Using Gemini 2.5 Flash)
+    private val model = Firebase.vertexAI.generativeModel(
+        modelName = "gemini-2.5-flash",
+        systemInstruction = content { text(systemInstructionText) }
+    )
+
+    // Maintain a single chat session for context/memory
+    private val chat = model.startChat()
 
     private val cupboardViewModel = CupboardViewModel()
     private val recipeViewModel = RecipeViewModel()
@@ -59,26 +45,17 @@ class ChatViewModel : ViewModel() {
         currentMessages.add(ChatMessage("", false))
         _messages.value = currentMessages
 
-        streamGeminiResponse(text, aiResponseIndex)
+        streamAiResponse(text, aiResponseIndex)
     }
 
-    private fun streamGeminiResponse(userMessage: String, responseIndex: Int) {
+    private fun streamAiResponse(userMessage: String, responseIndex: Int) {
         viewModelScope.launch {
             try {
-                val chat = generativeModel.startChat(
-                    history = listOf(
-                        content("user") { text(systemInstruction) },
-                        content("model") { text("Understood. I will act as your kitchen assistant and use the tags as requested.") }
-                    )
-                )
-                chat.sendMessageStream(userMessage)
-                    .onEach { chunk ->
-                        val content = chunk.text ?: ""
-                        appendAiMessage(responseIndex, content)
-                    }
-                    .collect()
+                chat.sendMessageStream(userMessage).collect { chunk ->
+                    val content = chunk.text ?: ""
+                    appendAiMessage(responseIndex, content)
+                }
                 
-                // After collection is complete, check for tool tags in the full message
                 val fullMessage = _messages.value?.get(responseIndex)?.content ?: ""
                 processCustomTags(fullMessage, responseIndex)
                 
@@ -89,9 +66,9 @@ class ChatViewModel : ViewModel() {
     }
 
     private fun processCustomTags(content: String, responseIndex: Int) {
-        val addRegex = "\\[ADD_INGREDIENT:(.+),(\\d+)\\]".toRegex()
-        val removeRegex = "\\[REMOVE_INGREDIENT:(\\d+)\\]".toRegex()
-        val searchRegex = "\\[SEARCH_RECIPE:(.+)\\]".toRegex()
+        val addRegex = "\\[ADD_INGREDIENT:(.+),(\\d+)]".toRegex()
+        val removeRegex = "\\[REMOVE_INGREDIENT:(\\d+)]".toRegex()
+        val searchRegex = "\\[SEARCH_RECIPE:(.+)]".toRegex()
 
         addRegex.findAll(content).forEach { match ->
             val name = match.groupValues[1]

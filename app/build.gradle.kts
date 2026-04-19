@@ -66,8 +66,8 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation("com.squareup.okhttp3:okhttp-sse:4.12.0")
 
-    // Gemini AI (Free tier available)
-    implementation("com.google.ai.client.generativeai:generativeai:0.9.0")
+    // Vertex AI for Firebase (More stable Gemini integration)
+    implementation("com.google.firebase:firebase-vertexai:16.5.0")
 
     // Material Calendar View for dots
     implementation("com.github.prolificinteractive:material-calendarview:2.0.1")
