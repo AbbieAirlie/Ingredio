@@ -57,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
         String password = passwordEditText.getText().toString().trim();
 
         if (email.isEmpty() || password.isEmpty()) {
-            Toast.makeText(LoginActivity.this, "Please enter email and password", Toast.LENGTH_SHORT).show();
+            Toast.makeText(LoginActivity.this, R.string.error_empty_credentials, Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -72,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
                             finish();
                         } else {
-                            String errorMessage = task.getException() != null ? task.getException().getMessage() : "Login failed";
+                            String errorMessage = task.getException() != null ? task.getException().getMessage() : getString(R.string.login_failed_generic);
                             Toast.makeText(LoginActivity.this, errorMessage, Toast.LENGTH_LONG).show();
                         }
                     }
@@ -84,7 +84,7 @@ public class LoginActivity extends AppCompatActivity {
         String password = passwordEditText.getText().toString().trim();
 
         if (email.isEmpty() || password.isEmpty()) {
-            Toast.makeText(LoginActivity.this, "Please enter email and password", Toast.LENGTH_SHORT).show();
+            Toast.makeText(LoginActivity.this, R.string.error_empty_credentials, Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -100,7 +100,7 @@ public class LoginActivity extends AppCompatActivity {
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
                             finish();
                         } else {
-                            String errorMessage = task.getException() != null ? task.getException().getMessage() : "Registration failed";
+                            String errorMessage = task.getException() != null ? task.getException().getMessage() : getString(R.string.registration_failed_generic);
                             Toast.makeText(LoginActivity.this, errorMessage, Toast.LENGTH_LONG).show();
                         }
                     }

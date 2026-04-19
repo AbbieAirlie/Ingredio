@@ -74,7 +74,12 @@ class IngredientAdapter(
         if (ingredient.expiryDate != null) {
             val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
             val dateStr = sdf.format(Date(ingredient.expiryDate))
-            holder.binding.textViewIngredientDetails.text = "${ingredient.expiryType}: $dateStr (${ingredient.storageType})"
+            holder.binding.textViewIngredientDetails.text = holder.itemView.context.getString(
+                R.string.ingredient_details_format,
+                ingredient.expiryType,
+                dateStr,
+                ingredient.storageType
+            )
             holder.binding.textViewIngredientDetails.visibility = android.view.View.VISIBLE
         } else {
             holder.binding.textViewIngredientDetails.visibility = android.view.View.GONE

@@ -116,17 +116,17 @@ class BrowseRecipesFragment : Fragment() {
                 val isCurrentlySaved = viewModel.savedRecipes.value?.any { it.id == recipe.id } == true
                 if (isCurrentlySaved) {
                     viewModel.deleteRecipe(recipe)
-                    Toast.makeText(context, "Recipe removed", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, getString(R.string.recipe_removed), Toast.LENGTH_SHORT).show()
                 } else {
                     viewModel.saveRecipe(recipe)
-                    Toast.makeText(context, "Recipe saved!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, getString(R.string.recipe_saved), Toast.LENGTH_SHORT).show()
                 }
             },
             onAddAllToShoppingList = { recipe ->
                 recipe.extendedIngredients?.forEach { ingredient ->
                     shoppingViewModel.addIngredientToShoppingList(ingredient)
                 }
-                Toast.makeText(context, "Added ingredients to shopping list", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, getString(R.string.recipe_added_to_shopping), Toast.LENGTH_SHORT).show()
             }
         )
         binding.recyclerViewRecipes.apply {

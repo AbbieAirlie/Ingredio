@@ -19,6 +19,20 @@
     <string name="login_failed">Login failed. Please check your credentials.</string>
     <string name="registration_failed">Registration failed.</string>
     <string name="registration_success">Registration successful!</string>
+    <string name="error_empty_credentials">Please enter email and password</string>
+    <string name="login_failed_generic">Login failed</string>
+    <string name="registration_failed_generic">Registration failed</string>
+    <string name="error_api_limit">Spoonacular API limit reached (402). Try again tomorrow.</string>
+    <string name="error_api_invalid_key">Invalid Spoonacular API Key (401).</string>
+    <string name="error_api_forbidden">Spoonacular API Forbidden (403).</string>
+    <string name="error_api_generic">Spoonacular Error: %1$d</string>
+    <string name="error_network_failure">Network Failure: %1$s</string>
+    <string name="error_failure">Failure: %1$s</string>
+    <string name="error_save_recipe_failed">Failed to save recipe: %1$s</string>
+    <string name="error_fetch_saved_recipes_failed">Failed to fetch saved recipes: %1$s</string>
+    <string name="error_delete_recipe_failed">Failed to delete recipe: %1$s</string>
+    <string name="ingredient_details_format">%1$s: %2$s (%3$s)</string>
+    <string name="recipe_added_to_shopping">Added ingredients to shopping list</string>
 
     <!-- Ingredient Search & Cupboard -->
     <string name="search_ingredients_hint">Search to add ingredients...</string>
@@ -68,6 +82,7 @@
     <string name="filter_nut_free">Nut Free</string>
     <string name="filters_title">Filters</string>
     <string name="meal_planner_title">Meal Planner</string>
+    <string name="chat_title">Chat</string>
     <string name="add_meal_plan">Add Meal Plan</string>
     <string name="custom_meal_hint">Enter custom meal name...</string>
     <string name="select_recipe">Select a saved recipe</string>
@@ -78,5 +93,9 @@
     <string name="save_meal">Save Meal</string>
     <string name="delete_meal">Delete</string>
     <string name="no_meals_planned">No meals planned for this day</string>
+    <string name="selected_date_format">Selected Date: %1$s</string>
     <string name="chat_fab_description">Open chat</string>
+    <string name="recipe_removed_toast">Recipe removed from saved!</string>
+    <string name="recipe_saved_toast">Recipe saved!</string>
+    <string name="date_format_display">%1$d/%2$d/%3$d</string>
 </resources>

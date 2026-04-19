@@ -31,7 +31,7 @@ class menuChat : AppCompatActivity() {
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.apply {
-            title = "Chat"
+            setTitle(R.string.chat_title)
             setDisplayHomeAsUpEnabled(true)
         }
 
@@ -58,10 +58,10 @@ class menuChat : AppCompatActivity() {
                 val savedRecipes = recipeViewModel.savedRecipes.value ?: emptyList()
                 if (savedRecipes.any { it.id == recipe.id }) {
                     recipeViewModel.deleteRecipe(recipe)
-                    android.widget.Toast.makeText(this, "Recipe removed from saved!", android.widget.Toast.LENGTH_SHORT).show()
+                    android.widget.Toast.makeText(this, getString(R.string.recipe_removed_toast), android.widget.Toast.LENGTH_SHORT).show()
                 } else {
                     recipeViewModel.saveRecipe(recipe)
-                    android.widget.Toast.makeText(this, "Recipe saved!", android.widget.Toast.LENGTH_SHORT).show()
+                    android.widget.Toast.makeText(this, getString(R.string.recipe_saved_toast), android.widget.Toast.LENGTH_SHORT).show()
                 }
             }
         )
@@ -121,7 +121,7 @@ class menuChat : AppCompatActivity() {
             android.app.DatePickerDialog(this, { _, year, month, day ->
                 calendar.set(year, month, day)
                 selectedTimestamp = calendar.timeInMillis
-                btnPickDate.text = "$day/${month + 1}/$year"
+                btnPickDate.text = getString(R.string.date_format_display, day, month + 1, year)
             }, calendar.get(java.util.Calendar.YEAR), calendar.get(java.util.Calendar.MONTH), calendar.get(java.util.Calendar.DAY_OF_MONTH)).show()
         }
 

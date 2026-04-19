@@ -74,10 +74,10 @@ class MealPlannerFragment : Fragment() {
             val calendar = Calendar.getInstance()
             calendar.set(day.year, day.month - 1, day.day)
             selectedDateStr = dateFormatter.format(calendar.time)
-            binding.textViewSelectedDate.text = "Selected Date: $selectedDateStr"
+            binding.textViewSelectedDate.text = getString(R.string.selected_date_format, selectedDateStr)
             viewModel.fetchMealPlans(selectedDateStr)
         }
-        binding.textViewSelectedDate.text = "Selected Date: $selectedDateStr"
+        binding.textViewSelectedDate.text = getString(R.string.selected_date_format, selectedDateStr)
     }
 
     private fun observeViewModel() {

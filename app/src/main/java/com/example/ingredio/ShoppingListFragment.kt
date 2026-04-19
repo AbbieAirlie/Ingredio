@@ -116,7 +116,7 @@ class ShoppingListFragment : Fragment() {
             android.app.DatePickerDialog(requireContext(), { _, year, month, day ->
                 calendar.set(year, month, day)
                 selectedTimestamp = calendar.timeInMillis
-                btnPickDate.text = "$day/${month + 1}/$year"
+                btnPickDate.text = getString(R.string.date_format_display, day, month + 1, year)
             }, calendar.get(java.util.Calendar.YEAR), calendar.get(java.util.Calendar.MONTH), calendar.get(java.util.Calendar.DAY_OF_MONTH)).show()
         }
 
