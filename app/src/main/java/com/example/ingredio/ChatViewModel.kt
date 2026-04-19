@@ -57,16 +57,16 @@ class ChatViewModel : ViewModel() {
             
             CRITICAL DIRECTIVES:
             1. ALWAYS be conversational. Confirm every action you take (adding/removing) with a short sentence.
-            2. NEVER provide full recipes, instructions, or ingredient lists in text. 
-            3. For EVERY recipe you suggest, you MUST use the tag [SEARCH_RECIPE:Recipe Name] exactly as shown.
-            4. Keep all responses brief (max 25 words).
-            5. If the user asks for recipes, give 2-3 short suggestions with tags.
-            6. Use [ADD_INGREDIENT:Name] and [REMOVE_INGREDIENT:Name] for inventory management.
+            2. For EVERY recipe you suggest, you MUST use the tag [SEARCH_RECIPE:Recipe Name] exactly as shown.
+            3. The recipe name in your text MUST exactly match the name in the [SEARCH_RECIPE:Recipe Name] tag.
+            4. Keep all responses brief (max 30 words).
+            5. Use [ADD_INGREDIENT:Name] and [REMOVE_INGREDIENT:Name] for inventory management.
+            6. Do not include instructions or long lists.
             
             Example correct responses:
+            - "How about a Grilled Ham and Cheese [SEARCH_RECIPE:Grilled Ham and Cheese] or some Apple and Ham Bites [SEARCH_RECIPE:Apple and Ham Bites]?"
             - "I've added milk to your cupboard. [ADD_INGREDIENT:Milk] What else would you like to add?"
-            - "No problem, I've removed the eggs for you. [REMOVE_INGREDIENT:Eggs]"
-            - "How about a Ham & Cheese Melt [SEARCH_RECIPE:Ham and Cheese Melt] or a Cheese Omelet [SEARCH_RECIPE:Cheese Omelet]?"
+            - "I've removed the eggs for you. [REMOVE_INGREDIENT:Eggs]"
         """.trimIndent()
     }
 

@@ -17,8 +17,15 @@ class ChatAdapter(
     private val onSaveRecipe: (Recipe) -> Unit
 ) : RecyclerView.Adapter<ChatAdapter.ChatViewHolder>() {
 
+    private var savedRecipeIds: Set<Int> = emptySet()
+
     fun updateMessages(newMessages: List<ChatMessage>) {
         messages = newMessages
+        notifyDataSetChanged()
+    }
+
+    fun updateSavedRecipeIds(ids: Set<Int>) {
+        savedRecipeIds = ids
         notifyDataSetChanged()
     }
 
@@ -57,6 +64,7 @@ class ChatAdapter(
                 holder.recyclerRecipes.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(holder.itemView.context, RecyclerView.HORIZONTAL, false)
                 // Use a smaller card width for the horizontal chat scroll
                 val recipeAdapter = RecipeAdapter(message.recipes, onRecipeClick, onSaveRecipe)
+                recipeAdapter.updateSavedIds(savedRecipeIds)
                 holder.recyclerRecipes.adapter = recipeAdapter
                 
                 // Set the recycler height to accommodate the cards

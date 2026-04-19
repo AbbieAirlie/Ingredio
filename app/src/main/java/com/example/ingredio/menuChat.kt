@@ -55,8 +55,14 @@ class menuChat : AppCompatActivity() {
                 }
             },
             onSaveRecipe = { recipe ->
-                recipeViewModel.saveRecipe(recipe)
-                android.widget.Toast.makeText(this, "Recipe saved!", android.widget.Toast.LENGTH_SHORT).show()
+                val savedRecipes = recipeViewModel.savedRecipes.value ?: emptyList()
+                if (savedRecipes.any { it.id == recipe.id }) {
+                    recipeViewModel.deleteRecipe(recipe)
+                    android.widget.Toast.makeText(this, "Recipe removed from saved!", android.widget.Toast.LENGTH_SHORT).show()
+                } else {
+                    recipeViewModel.saveRecipe(recipe)
+                    android.widget.Toast.makeText(this, "Recipe saved!", android.widget.Toast.LENGTH_SHORT).show()
+                }
             }
         )
         recyclerView.adapter = adapter
@@ -66,6 +72,13 @@ class menuChat : AppCompatActivity() {
             adapter.updateMessages(messages)
             recyclerView.scrollToPosition(messages.size - 1)
         }
+
+        recipeViewModel.savedRecipes.observe(this) { saved ->
+            val savedIds = saved.map { it.id }.toSet()
+            adapter.updateSavedRecipeIds(savedIds)
+        }
+
+        recipeViewModel.fetchSavedRecipes()
 
         viewModel.showExpiryDialog.observe(this) { ingredient ->
             if (ingredient != null) {
