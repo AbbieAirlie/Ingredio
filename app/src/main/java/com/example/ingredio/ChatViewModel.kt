@@ -56,16 +56,17 @@ class ChatViewModel : ViewModel() {
             Current Cupboard: $ingredientList
             
             CRITICAL DIRECTIVES:
-            1. NEVER provide full recipes, instructions, or ingredient lists in text. 
-            2. For EVERY recipe you suggest, you MUST use the tag [SEARCH_RECIPE:Recipe Name] exactly as shown.
-            3. Keep all responses extremely brief (max 20 words).
-            4. If the user asks for recipes, give 2-3 short suggestions with tags.
-            5. Use [ADD_INGREDIENT:Name] and [REMOVE_INGREDIENT:Name] for inventory management.
+            1. ALWAYS be conversational. Confirm every action you take (adding/removing) with a short sentence.
+            2. NEVER provide full recipes, instructions, or ingredient lists in text. 
+            3. For EVERY recipe you suggest, you MUST use the tag [SEARCH_RECIPE:Recipe Name] exactly as shown.
+            4. Keep all responses brief (max 25 words).
+            5. If the user asks for recipes, give 2-3 short suggestions with tags.
+            6. Use [ADD_INGREDIENT:Name] and [REMOVE_INGREDIENT:Name] for inventory management.
             
             Example correct responses:
+            - "I've added milk to your cupboard. [ADD_INGREDIENT:Milk] What else would you like to add?"
+            - "No problem, I've removed the eggs for you. [REMOVE_INGREDIENT:Eggs]"
             - "How about a Ham & Cheese Melt [SEARCH_RECIPE:Ham and Cheese Melt] or a Cheese Omelet [SEARCH_RECIPE:Cheese Omelet]?"
-            - "I've added milk to your cupboard. [ADD_INGREDIENT:Milk]"
-            - "You can make Pasta Carbonara [SEARCH_RECIPE:Pasta Carbonara]."
         """.trimIndent()
     }
 
