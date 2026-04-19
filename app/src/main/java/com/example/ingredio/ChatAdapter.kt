@@ -55,10 +55,16 @@ class ChatAdapter(
             if (message.recipes != null && message.recipes.isNotEmpty()) {
                 holder.recyclerRecipes.visibility = View.VISIBLE
                 holder.recyclerRecipes.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(holder.itemView.context, RecyclerView.HORIZONTAL, false)
+                // Use a smaller card width for the horizontal chat scroll
                 val recipeAdapter = RecipeAdapter(message.recipes, onRecipeClick, onSaveRecipe)
                 holder.recyclerRecipes.adapter = recipeAdapter
+                
+                // Set the recycler height to accommodate the cards
+                val density = holder.itemView.context.resources.displayMetrics.density
+                holder.recyclerRecipes.layoutParams.height = (280 * density).toInt() 
             } else {
                 holder.recyclerRecipes.visibility = View.GONE
+                holder.recyclerRecipes.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
             }
         }
         holder.cardMessage.layoutParams = params

@@ -275,7 +275,7 @@ class ChatViewModel : ViewModel() {
     }
 
     private fun searchRecipes(query: String, responseIndex: Int) {
-        spoonacularService.searchRecipes(apiKey, query, number = 3).enqueue(object : Callback<RecipeResponse> {
+        spoonacularService.searchRecipes(apiKey, query, number = 3, addRecipeInformation = true).enqueue(object : Callback<RecipeResponse> {
             override fun onResponse(call: Call<RecipeResponse>, response: Response<RecipeResponse>) {
                 if (response.isSuccessful) {
                     val results = response.body()?.results ?: emptyList()
@@ -283,6 +283,7 @@ class ChatViewModel : ViewModel() {
                     if (responseIndex < currentMessages.size) {
                         val msg = currentMessages[responseIndex]
                         val existingRecipes = msg.recipes ?: emptyList()
+                        // Map results to ensure sourceUrl is populated
                         val newRecipes = results.filter { res -> existingRecipes.none { it.id == res.id } }
                         if (newRecipes.isNotEmpty()) {
                             val updatedRecipes = existingRecipes + newRecipes
