@@ -46,12 +46,16 @@ class SettingsFragment : Fragment() {
                 putInt("notification_days_before", days)
                 apply()
             }
-            Toast.makeText(context, "Settings saved: $days days before", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, getString(R.string.settings_saved_format, days), Toast.LENGTH_SHORT).show()
         }
     }
 
     private fun updateDaysText(days: Int) {
-        binding.textViewDaysValue.text = if (days == 1) "1 day" else "$days days"
+        binding.textViewDaysValue.text = if (days == 1) {
+            getString(R.string.one_day)
+        } else {
+            getString(R.string.days_format, days)
+        }
     }
 
     override fun onDestroyView() {

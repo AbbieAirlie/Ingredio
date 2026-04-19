@@ -56,7 +56,7 @@ class SavedRecipesFragment : Fragment() {
             },
             onSaveRecipe = { recipe ->
                 viewModel.deleteRecipe(recipe)
-                Toast.makeText(context, "Recipe removed", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, getString(R.string.recipe_removed), Toast.LENGTH_SHORT).show()
             }
         )
         binding.recyclerViewSavedRecipes.apply {

@@ -138,11 +138,16 @@ class MealPlannerFragment : Fragment() {
         val spinnerRecipes = dialogView.findViewById<Spinner>(R.id.spinnerRecipes)
         val spinnerMealType = dialogView.findViewById<Spinner>(R.id.spinnerMealType)
 
-        val mealTypes = arrayOf("Breakfast", "Lunch", "Dinner", "Snack")
+        val mealTypes = arrayOf(
+            getString(R.string.meal_type_breakfast),
+            getString(R.string.meal_type_lunch),
+            getString(R.string.meal_type_dinner),
+            getString(R.string.meal_type_snack)
+        )
         spinnerMealType.adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, mealTypes)
 
         val savedRecipes = recipeViewModel.savedRecipes.value ?: emptyList()
-        val recipeTitles = mutableListOf("None (Custom)")
+        val recipeTitles = mutableListOf(getString(R.string.custom_meal_none))
         recipeTitles.addAll(savedRecipes.map { it.title })
         spinnerRecipes.adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, recipeTitles)
 

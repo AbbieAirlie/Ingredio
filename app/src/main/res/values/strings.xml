@@ -90,6 +90,8 @@
     <string name="meal_type_lunch">Lunch</string>
     <string name="meal_type_dinner">Dinner</string>
     <string name="meal_type_snack">Snack</string>
+    <string name="meal_type_label">Meal Type</string>
+    <string name="custom_meal_none">None (Custom)</string>
     <string name="save_meal">Save Meal</string>
     <string name="delete_meal">Delete</string>
     <string name="no_meals_planned">No meals planned for this day</string>
@@ -98,4 +100,19 @@
     <string name="recipe_removed_toast">Recipe removed from saved!</string>
     <string name="recipe_saved_toast">Recipe saved!</string>
     <string name="date_format_display">%1$d/%2$d/%3$d</string>
+    <string name="recipe_title_placeholder">Recipe Title</string>
+    <string name="move_button_text">Move</string>
+    <string name="type_message_hint">Type a message...</string>
+    <string name="send_button_desc">Send</string>
+    <string name="add_ingredients_title">Add Ingredients</string>
+    <string name="search_ingredients_hint_default">Search ingredients...</string>
+    <string name="notification_settings_title">Notification Settings</string>
+    <string name="notify_days_before_expiration">Notify me how many days before expiration?</string>
+    <string name="save_settings_button">Save Settings</string>
+    <string name="one_day">1 day</string>
+    <string name="days_format">%1$d days</string>
+    <string name="settings_saved_format">Settings saved: %1$d days before</string>
+    <string name="storage_ambient">Ambient</string>
+    <string name="storage_fresh">Fresh</string>
+    <string name="storage_frozen">Frozen</string>
 </resources>

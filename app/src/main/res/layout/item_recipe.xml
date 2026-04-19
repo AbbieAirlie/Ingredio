@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:layout_toStartOf="@id/button_save_recipe"
                 android:padding="12dp"
-                android:text="Recipe Title"
+                android:text="@string/recipe_title_placeholder"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 

@@ -35,7 +35,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="@string/expiry_type_label"
+        android:text="@string/meal_type_label"
         android:textStyle="bold" />
 
     <Spinner

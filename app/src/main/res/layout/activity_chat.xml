@@ -43,15 +43,17 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="Type a message..."
-            android:minHeight="48dp" />
+            android:hint="@string/type_message_hint"
+            android:minHeight="48dp"
+            android:autofillHints="none"
+            android:inputType="textLongMessage" />
 
         <ImageButton
             android:id="@+id/buttonSend"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="Send"
+            android:contentDescription="@string/send_button_desc"
             android:src="@android:drawable/ic_menu_send"
             app:tint="@color/ingredio_green" />
     </LinearLayout>
