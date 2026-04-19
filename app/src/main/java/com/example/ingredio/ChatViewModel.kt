@@ -159,19 +159,8 @@ class ChatViewModel : ViewModel() {
                     appendAiMessage(responseIndex, content)
                 }
                 
-                // Process tags immediately so the UI updates and actions trigger
+                // Process tags and fetch recipes
                 processCustomTags(fullAiContent, responseIndex)
-                
-                // Save AI message to Firestore when stream completes
-                val userId = auth.currentUser?.uid
-                if (userId != null) {
-                    val aiMsg = ChatMessage(fullAiContent, false)
-                    try {
-                        db.collection("users").document(userId).collection("chatHistory").add(aiMsg).await()
-                    } catch (e: Exception) {
-                        Log.e("ChatViewModel", "Firestore save failed: ${e.message}")
-                    }
-                }
                 
             } catch (e: Exception) {
                 updateAiMessage(responseIndex, "Error: ${e.localizedMessage}")
@@ -203,28 +192,19 @@ class ChatViewModel : ViewModel() {
 
         addRegex.findAll(fullAiContent).forEach { match ->
             val queryName = match.groupValues[1].trim()
-            Log.d("ChatViewModel", "Found ADD_INGREDIENT tag for: $queryName")
             viewModelScope.launch(Dispatchers.IO) {
                 try {
                     val response = spoonacularService.searchIngredients(apiKey, queryName, 1).execute()
                     val ingredient = if (response.isSuccessful) {
                         response.body()?.results?.firstOrNull() ?: Ingredient(name = queryName)
                     } else {
-                        val errorLog = when(response.code()) {
-                            402 -> "Spoonacular API limit reached (402)"
-                            401 -> "Invalid API Key"
-                            else -> "Spoonacular Error ${response.code()}"
-                        }
-                        Log.e("ChatViewModel", errorLog)
                         Ingredient(name = queryName)
                     }
-
                     launch(Dispatchers.Main) {
                         addIngredientToDb(ingredient)
                         _showExpiryDialog.value = ingredient
                     }
                 } catch (e: Exception) {
-                    Log.e("ChatViewModel", "Error searching for ingredient: ${e.message}")
                     launch(Dispatchers.Main) {
                         val fallback = Ingredient(name = queryName)
                         addIngredientToDb(fallback)
@@ -235,16 +215,45 @@ class ChatViewModel : ViewModel() {
         }
 
         removeRegex.findAll(fullAiContent).forEach { match ->
-            val queryName = match.groupValues[1].trim()
-            Log.d("ChatViewModel", "Found REMOVE_INGREDIENT tag for: $queryName")
-            removeIngredientFromDb(queryName)
+            removeIngredientFromDb(match.groupValues[1].trim())
         }
 
-        searchRegex.findAll(fullAiContent).forEach { match ->
-            val query = match.groupValues[1].trim()
-            Log.d("ChatViewModel", "Found SEARCH_RECIPE tag for: $query")
-            searchRecipes(query, responseIndex)
+        // Handle recipe searches and save state when done
+        val searchMatches = searchRegex.findAll(fullAiContent).toList()
+        if (searchMatches.isEmpty()) {
+            saveFinalMessageToFirestore(cleanContent, responseIndex)
+        } else {
+            viewModelScope.launch(Dispatchers.IO) {
+                val allFetchedRecipes = mutableListOf<Recipe>()
+                searchMatches.forEach { match ->
+                    val query = match.groupValues[1].trim()
+                    try {
+                        val response = spoonacularService.searchRecipes(apiKey, query, number = 1, addRecipeInformation = true).execute()
+                        if (response.isSuccessful) {
+                            response.body()?.results?.firstOrNull()?.let { allFetchedRecipes.add(it) }
+                        }
+                    } catch (e: Exception) {
+                        Log.e("ChatViewModel", "Recipe fetch failed for $query: ${e.message}")
+                    }
+                }
+                
+                launch(Dispatchers.Main) {
+                    val currentMessages = _messages.value ?: return@launch
+                    if (responseIndex < currentMessages.size) {
+                        currentMessages[responseIndex] = currentMessages[responseIndex].copy(recipes = allFetchedRecipes)
+                        _messages.value = currentMessages
+                        // Save the complete message (with recipes) to Firestore
+                        saveFinalMessageToFirestore(cleanContent, responseIndex, allFetchedRecipes)
+                    }
+                }
+            }
         }
+    }
+
+    private fun saveFinalMessageToFirestore(content: String, index: Int, recipes: List<Recipe>? = null) {
+        val userId = auth.currentUser?.uid ?: return
+        val aiMsg = ChatMessage(content, false, recipes = recipes)
+        db.collection("users").document(userId).collection("chatHistory").add(aiMsg)
     }
 
     private fun addIngredientToDb(ingredient: Ingredient) {
@@ -275,28 +284,7 @@ class ChatViewModel : ViewModel() {
     }
 
     private fun searchRecipes(query: String, responseIndex: Int) {
-        spoonacularService.searchRecipes(apiKey, query, number = 3, addRecipeInformation = true).enqueue(object : Callback<RecipeResponse> {
-            override fun onResponse(call: Call<RecipeResponse>, response: Response<RecipeResponse>) {
-                if (response.isSuccessful) {
-                    val results = response.body()?.results ?: emptyList()
-                    val currentMessages = _messages.value ?: return
-                    if (responseIndex < currentMessages.size) {
-                        val msg = currentMessages[responseIndex]
-                        val existingRecipes = msg.recipes ?: emptyList()
-                        // Map results to ensure sourceUrl is populated
-                        val newRecipes = results.filter { res -> existingRecipes.none { it.id == res.id } }
-                        if (newRecipes.isNotEmpty()) {
-                            val updatedRecipes = existingRecipes + newRecipes
-                            currentMessages[responseIndex] = msg.copy(recipes = updatedRecipes)
-                            _messages.value = currentMessages
-                        }
-                    }
-                }
-            }
-            override fun onFailure(call: Call<RecipeResponse>, t: Throwable) {
-                Log.e("ChatViewModel", "Recipe search failed: ${t.message}")
-            }
-        })
+        // This function is now handled inside processCustomTags to manage state better
     }
 
     private fun appendAiMessage(index: Int, content: String) {
