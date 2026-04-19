@@ -42,12 +42,13 @@
         android:id="@+id/fabAddMeal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginBottom="20dp"
         android:src="@android:drawable/ic_input_add"
         app:backgroundTint="@color/ingredio_green"
         app:tint="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         android:contentDescription="@string/add_meal_plan" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
