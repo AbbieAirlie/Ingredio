@@ -74,6 +74,12 @@ class menuChat : AppCompatActivity() {
             }
         }
 
+        cupboardViewModel.status.observe(this) { status ->
+            if (!status.isNullOrEmpty()) {
+                android.widget.Toast.makeText(this, status, android.widget.Toast.LENGTH_SHORT).show()
+            }
+        }
+
         buttonSend.setOnClickListener {
             val text = editText.text.toString().trim()
             if (text.isNotEmpty()) {

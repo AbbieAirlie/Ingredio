@@ -122,7 +122,13 @@ class RecipeViewModel : ViewModel() {
                     cachedRecipes = results
                     _recipes.value = results
                 } else {
-                    _error.value = "Error: ${response.code()}"
+                    val errorMsg = when (response.code()) {
+                        402 -> "Spoonacular API limit reached (402). Try again tomorrow."
+                        401 -> "Invalid Spoonacular API Key (401)."
+                        403 -> "Spoonacular API Forbidden (403)."
+                        else -> "Spoonacular Error: ${response.code()}"
+                    }
+                    _error.value = errorMsg
                 }
             }
 
@@ -158,7 +164,13 @@ class RecipeViewModel : ViewModel() {
                         cachedIngredientRecipes = results
                     }
                 } else {
-                    _error.value = "API Error ${response.code()}"
+                    val errorMsg = when (response.code()) {
+                        402 -> "Spoonacular API limit reached (402). Try again tomorrow."
+                        401 -> "Invalid Spoonacular API Key (401)."
+                        403 -> "Spoonacular API Forbidden (403)."
+                        else -> "Spoonacular Error: ${response.code()}"
+                    }
+                    _error.value = errorMsg
                 }
             }
 
@@ -174,7 +186,13 @@ class RecipeViewModel : ViewModel() {
                 if (response.isSuccessful) {
                     _ingredients.value = response.body()?.results ?: emptyList()
                 } else {
-                    _error.value = "Error: ${response.code()}"
+                    val errorMsg = when (response.code()) {
+                        402 -> "Spoonacular API limit reached (402). Try again tomorrow."
+                        401 -> "Invalid Spoonacular API Key (401)."
+                        403 -> "Spoonacular API Forbidden (403)."
+                        else -> "Spoonacular Error: ${response.code()}"
+                    }
+                    _error.value = errorMsg
                 }
             }
 
