@@ -160,7 +160,13 @@ class menuCupboard : Fragment() {
             val expiryType = if (rgExpiryType.checkedRadioButtonId == R.id.radioButton_use_by) getString(R.string.use_by) else getString(R.string.best_before)
             val storageType = spinnerStorage.selectedItem.toString()
 
-            cupboardViewModel.addIngredientWithDetails(ingredient, selectedTimestamp!!, expiryType, storageType)
+            val updatedIngredient = ingredient.copy(
+                expiryDate = selectedTimestamp!!,
+                expiryType = expiryType,
+                storageType = storageType
+            )
+            cupboardViewModel.addIngredientWithDetails(updatedIngredient, selectedTimestamp!!, expiryType, storageType)
+            NotificationUtils.scheduleExpirationNotification(requireContext(), updatedIngredient)
             dialog.dismiss()
         }
 
@@ -201,7 +207,13 @@ class menuCupboard : Fragment() {
             val expiryType = if (rgExpiryType.checkedRadioButtonId == R.id.radioButton_use_by) getString(R.string.use_by) else getString(R.string.best_before)
             val storageType = spinnerStorage.selectedItem.toString()
 
-            cupboardViewModel.addIngredientWithDetails(ingredient, selectedTimestamp!!, expiryType, storageType)
+            val updatedIngredient = ingredient.copy(
+                expiryDate = selectedTimestamp!!,
+                expiryType = expiryType,
+                storageType = storageType
+            )
+            cupboardViewModel.addIngredientWithDetails(updatedIngredient, selectedTimestamp!!, expiryType, storageType)
+            NotificationUtils.scheduleExpirationNotification(requireContext(), updatedIngredient)
             
             binding.editTextSearchIngredients.text.clear()
             binding.recyclerViewSearchResults.visibility = View.GONE
