@@ -14,7 +14,8 @@ import com.example.ingredio.data.model.Recipe
 class ChatAdapter(
     private var messages: List<ChatMessage>,
     private val onRecipeClick: (Recipe) -> Unit,
-    private val onSaveRecipe: (Recipe) -> Unit
+    private val onSaveRecipe: (Recipe) -> Unit,
+    private val onAddAllToShoppingList: ((Recipe) -> Unit)? = null
 ) : RecyclerView.Adapter<ChatAdapter.ChatViewHolder>() {
 
     private var savedRecipeIds: Set<Int> = emptySet()
@@ -61,18 +62,21 @@ class ChatAdapter(
             
             if (message.recipes != null && message.recipes.isNotEmpty()) {
                 holder.recyclerRecipes.visibility = View.VISIBLE
-                holder.recyclerRecipes.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(holder.itemView.context, RecyclerView.HORIZONTAL, false)
-                // Use a smaller card width for the horizontal chat scroll
-                val recipeAdapter = RecipeAdapter(message.recipes, onRecipeClick, onSaveRecipe)
-                recipeAdapter.updateSavedIds(savedRecipeIds)
-                holder.recyclerRecipes.adapter = recipeAdapter
+                if (holder.recyclerRecipes.layoutManager == null) {
+                    holder.recyclerRecipes.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(holder.itemView.context, RecyclerView.HORIZONTAL, false)
+                }
                 
-                // Set the recycler height to accommodate the cards
-                val density = holder.itemView.context.resources.displayMetrics.density
-                holder.recyclerRecipes.layoutParams.height = (280 * density).toInt() 
+                val currentAdapter = holder.recyclerRecipes.adapter as? RecipeAdapter
+                if (currentAdapter != null) {
+                    currentAdapter.updateRecipes(message.recipes)
+                    currentAdapter.updateSavedIds(savedRecipeIds)
+                } else {
+                    val recipeAdapter = RecipeAdapter(message.recipes, onRecipeClick, onSaveRecipe, onAddAllToShoppingList)
+                    recipeAdapter.updateSavedIds(savedRecipeIds)
+                    holder.recyclerRecipes.adapter = recipeAdapter
+                }
             } else {
                 holder.recyclerRecipes.visibility = View.GONE
-                holder.recyclerRecipes.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
             }
         }
         holder.cardMessage.layoutParams = params

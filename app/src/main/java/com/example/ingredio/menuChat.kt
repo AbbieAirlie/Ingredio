@@ -23,6 +23,7 @@ class menuChat : AppCompatActivity() {
     private lateinit var adapter: ChatAdapter
 
     private val cupboardViewModel: CupboardViewModel by viewModels()
+    private val shoppingViewModel: ShoppingListViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,6 +64,12 @@ class menuChat : AppCompatActivity() {
                     recipeViewModel.saveRecipe(recipe)
                     android.widget.Toast.makeText(this, getString(R.string.recipe_saved_toast), android.widget.Toast.LENGTH_SHORT).show()
                 }
+            },
+            onAddAllToShoppingList = { recipe ->
+                recipe.extendedIngredients?.forEach { ingredient ->
+                    shoppingViewModel.addIngredientToShoppingList(ingredient)
+                }
+                android.widget.Toast.makeText(this, getString(R.string.recipe_added_to_shopping), android.widget.Toast.LENGTH_SHORT).show()
             }
         )
         recyclerView.adapter = adapter

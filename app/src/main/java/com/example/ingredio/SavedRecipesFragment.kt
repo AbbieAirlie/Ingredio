@@ -18,6 +18,7 @@ class SavedRecipesFragment : Fragment() {
 
     private lateinit var recipeAdapter: RecipeAdapter
     private val viewModel: RecipeViewModel by viewModels()
+    private val shoppingViewModel: ShoppingListViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,6 +58,12 @@ class SavedRecipesFragment : Fragment() {
             onSaveRecipe = { recipe ->
                 viewModel.deleteRecipe(recipe)
                 Toast.makeText(context, getString(R.string.recipe_removed), Toast.LENGTH_SHORT).show()
+            },
+            onAddAllToShoppingList = { recipe ->
+                recipe.extendedIngredients?.forEach { ingredient ->
+                    shoppingViewModel.addIngredientToShoppingList(ingredient)
+                }
+                Toast.makeText(context, getString(R.string.recipe_added_to_shopping), Toast.LENGTH_SHORT).show()
             }
         )
         binding.recyclerViewSavedRecipes.apply {

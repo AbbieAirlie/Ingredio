@@ -8,10 +8,10 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 
-class MealPlannerViewModel : ViewModel() {
-
-    private val db = FirebaseFirestore.getInstance()
-    private val auth = FirebaseAuth.getInstance()
+class MealPlannerViewModel(
+    private val db: FirebaseFirestore = FirebaseFirestore.getInstance(),
+    private val auth: FirebaseAuth = FirebaseAuth.getInstance()
+) : ViewModel() {
     private var dateMealPlanListener: ListenerRegistration? = null
     private var allMealPlanListener: ListenerRegistration? = null
 

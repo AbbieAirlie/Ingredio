@@ -7,10 +7,10 @@ import com.example.ingredio.data.model.Ingredient
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
-class CupboardViewModel : ViewModel() {
-
-    private val db = FirebaseFirestore.getInstance()
-    private val auth = FirebaseAuth.getInstance()
+class CupboardViewModel(
+    private val db: FirebaseFirestore = FirebaseFirestore.getInstance(),
+    private val auth: FirebaseAuth = FirebaseAuth.getInstance()
+) : ViewModel() {
 
     private val _userIngredients = MutableLiveData<List<Ingredient>>()
     val userIngredients: LiveData<List<Ingredient>> get() = _userIngredients

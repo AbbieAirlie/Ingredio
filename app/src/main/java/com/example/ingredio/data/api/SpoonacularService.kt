@@ -14,7 +14,8 @@ interface SpoonacularService {
         @Query("diet") diet: String? = null,
         @Query("intolerances") intolerances: String? = null,
         @Query("number") number: Int = 10,
-        @Query("addRecipeInformation") addRecipeInformation: Boolean = true
+        @Query("addRecipeInformation") addRecipeInformation: Boolean = true,
+        @Query("fillIngredients") fillIngredients: Boolean = true
     ): Call<RecipeResponse>
 
     @GET("recipes/complexSearch")

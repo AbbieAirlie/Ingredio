@@ -4,8 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    app:cardCornerRadius="8dp"
-    app:cardElevation="4dp">
+    app:cardCornerRadius="16dp"
+    app:cardElevation="3dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,44 +15,70 @@
         <ImageView
             android:id="@+id/recipeImage"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:scaleType="centerCrop" />
+            android:layout_height="140dp"
+            android:scaleType="centerCrop"
+            android:contentDescription="@null" />
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingHorizontal="12dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="4dp">
 
             <TextView
                 android:id="@+id/recipeTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toStartOf="@id/button_save_recipe"
-                android:padding="12dp"
                 android:text="@string/recipe_title_placeholder"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:textColor="#333333"
+                android:lineSpacingExtra="2dp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#F0F0F0"
+            android:layout_marginHorizontal="12dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="12dp"
+            android:background="#FAFAFA">
+
+            <TextView
+                android:id="@+id/button_add_all_shopping"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/add_to_list"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:visibility="gone"
+                android:textColor="@color/ingredio_green"
+                android:textAllCaps="true"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?attr/selectableItemBackground" />
 
             <ImageButton
                 android:id="@+id/button_save_recipe"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="8dp"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/save_recipe_description"
+                android:scaleType="centerInside"
                 android:src="@android:drawable/btn_star_big_off" />
-        </RelativeLayout>
-
-        <Button
-            android:id="@+id/button_add_all_shopping"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_margin="8dp"
-            android:text="@string/add_all_to_shopping_list"
-            android:textSize="12sp"
-            android:visibility="gone"
-            android:backgroundTint="@color/ingredio_green" />
+        </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

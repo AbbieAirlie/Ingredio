@@ -13,6 +13,9 @@ coreKtx = "1.18.0"
 retrofit = "3.0.0"
 glide = "5.0.5"
 lifecycle = "2.10.0"
+mockk = "1.13.13"
+kotlinxCoroutinesTest = "1.10.1"
+androidxCoreTesting = "2.2.0"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -29,6 +32,9 @@ converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", ve
 glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
 lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
 lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "lifecycle" }
+mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
+kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
+androidx-core-testing = { group = "androidx.arch.core", name = "core-testing", version.ref = "androidxCoreTesting" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

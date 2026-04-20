@@ -16,7 +16,15 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class RecipeViewModel : ViewModel() {
+class RecipeViewModel(
+    private val db: FirebaseFirestore = FirebaseFirestore.getInstance(),
+    private val auth: FirebaseAuth = FirebaseAuth.getInstance(),
+    private val spoonacularService: SpoonacularService = Retrofit.Builder()
+        .baseUrl("https://api.spoonacular.com/")
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+        .create(SpoonacularService::class.java)
+) : ViewModel() {
 
     private val _recipes = MutableLiveData<List<Recipe>>()
     val recipes: LiveData<List<Recipe>> get() = _recipes
@@ -29,9 +37,6 @@ class RecipeViewModel : ViewModel() {
 
     private val _error = MutableLiveData<String>()
     val error: LiveData<String> get() = _error
-
-    private val db = FirebaseFirestore.getInstance()
-    private val auth = FirebaseAuth.getInstance()
 
     // Simple in-memory cache
     private var lastQuery: String? = null
@@ -92,14 +97,6 @@ class RecipeViewModel : ViewModel() {
                 _error.value = "Failed to delete recipe: ${e.message}"
                 fetchSavedRecipes() // Rollback on failure
             }
-    }
-
-    private val spoonacularService: SpoonacularService by lazy {
-        Retrofit.Builder()
-            .baseUrl("https://api.spoonacular.com/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(SpoonacularService::class.java)
     }
 
     private val apiKey = "cd1c0340258f4c5bad29f95c40644e2e"

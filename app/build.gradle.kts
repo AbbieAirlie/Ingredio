@@ -42,6 +42,9 @@ dependencies {
     implementation(libs.navigation.ui)
     implementation(libs.core.ktx)
     testImplementation(libs.junit)
+    testImplementation(libs.mockk)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.androidx.core.testing)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
     //import firebase BoM

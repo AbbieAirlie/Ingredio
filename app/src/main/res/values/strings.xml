@@ -70,6 +70,7 @@
     <string name="shopping_list_button">Shopping List</string>
     <string name="search_shopping_hint">Search to add to shopping list…</string>
     <string name="add_all_to_shopping_list">Add all ingredients to shopping list</string>
+    <string name="add_to_list">Add to List</string>
     <string name="save_recipe_description">Save recipe</string>
     <string name="saved_recipes_title">Saved Recipes</string>
     <string name="recipe_saved">Recipe saved!</string>

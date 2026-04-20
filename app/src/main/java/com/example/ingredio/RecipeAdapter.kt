@@ -32,6 +32,22 @@ class RecipeAdapter(
     }
 
     override fun onBindViewHolder(holder: RecipeViewHolder, position: Int) {
+        // Adjust width for chat carousel if parent is RecyclerView and horizontal
+        val parent = holder.itemView.parent as? RecyclerView
+        val isHorizontal = (parent?.layoutManager as? androidx.recyclerview.widget.LinearLayoutManager)?.orientation == RecyclerView.HORIZONTAL
+        
+        val params = holder.itemView.layoutParams
+        val density = holder.itemView.context.resources.displayMetrics.density
+        
+        if (isHorizontal) {
+            params.width = (220 * density).toInt()
+            params.height = ViewGroup.LayoutParams.MATCH_PARENT
+        } else {
+            params.width = ViewGroup.LayoutParams.MATCH_PARENT
+            params.height = ViewGroup.LayoutParams.WRAP_CONTENT
+        }
+        holder.itemView.layoutParams = params
+
         val recipe = recipes[position]
         holder.recipeTitle.text = recipe.title
         Glide.with(holder.itemView.context)
