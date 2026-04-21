@@ -3,8 +3,6 @@ package com.example.ingredio
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.example.ingredio.data.model.Ingredient
-import com.google.android.gms.tasks.OnFailureListener
-import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -13,7 +11,6 @@ import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
-import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -58,6 +55,44 @@ class CupboardViewModelTest {
     }
 
     @Test
+    fun `docId generation normalizes input by trimming and lowercasing`() {
+        // Given
+        val userId = "test_user"
+        val ingredientWithSpaces = Ingredient(id = 1, name = " Milk ", image = "milk.jpg")
+        val ingredientUppercase = Ingredient(id = 2, name = "MILK", image = "milk.jpg")
+        
+        every { auth.currentUser } returns user
+        every { user.uid } returns userId
+
+        val collectionRef = mockk<CollectionReference>()
+        val userDocRef = mockk<DocumentReference>()
+        val cupboardCollRef = mockk<CollectionReference>()
+        val itemDocRef = mockk<DocumentReference>()
+        val task = mockk<Task<Void>>()
+
+        every { db.collection("users") } returns collectionRef
+        every { collectionRef.document(userId) } returns userDocRef
+        every { userDocRef.collection("cupboard") } returns cupboardCollRef
+        
+        // Mocking document call for normalized ID
+        every { cupboardCollRef.document("milk") } returns itemDocRef
+        
+        every { itemDocRef.set(any<Map<String, Any>>(), any()) } returns task
+        every { task.addOnSuccessListener(any()) } returns task
+        every { task.addOnFailureListener(any()) } returns task
+
+        // When adding " Milk "
+        viewModel.addIngredientToCupboard(ingredientWithSpaces)
+        // Then verify "milk" document was used
+        verify { cupboardCollRef.document("milk") }
+
+        // When adding "MILK"
+        viewModel.addIngredientToCupboard(ingredientUppercase)
+        // Then verify "milk" document was used again
+        verify(exactly = 2) { cupboardCollRef.document("milk") }
+    }
+
+    @Test
     fun `addIngredientToCupboard calls firestore when user is logged in`() {
         // Given
         val userId = "test_user"
@@ -76,7 +111,6 @@ class CupboardViewModelTest {
         every { userDocRef.collection("cupboard") } returns cupboardCollRef
         every { cupboardCollRef.document("milk") } returns itemDocRef
         
-        // Use any() for SetOptions to avoid issues with matching the merge() instance
         every { itemDocRef.set(any<Map<String, Any>>(), any()) } returns task
         every { task.addOnSuccessListener(any()) } returns task
         every { task.addOnFailureListener(any()) } returns task
